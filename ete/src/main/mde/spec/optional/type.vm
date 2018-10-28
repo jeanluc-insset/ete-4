@@ -4,4 +4,6 @@
     $name=="String")Optional<String>#elseif(
     $name=="int" || $name=="Integer")Optional<Integer>#elseif(
     $name=="double" || $name=="float")Double#elseif(
+    $aProperty.type.hasStereotype("ignore"))${name}#elseif(
+    $aProperty.type.enumeration)${prefix}${name}#elseif(
     $aProperty.type.hasStereotype("ignore"))${name}Optional#else${prefix}${name}Optional#end
