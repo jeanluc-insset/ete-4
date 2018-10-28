@@ -2,13 +2,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>fr.upjv.mis.ete</groupId>
-        <artifactId>ete-toolchain-4</artifactId>
+        <groupId>fr.insset.jeanluc</groupId>
+        <artifactId>ete</artifactId>
         <version>4.0</version>
     </parent>
-    <artifactId>ete</artifactId>
+    <artifactId>mof</artifactId>
+    <groupId>fr.upjv.mis.ete</groupId>
     <packaging>pom</packaging>
+    <version>4.0</version>
   <modules>
-    <module>mof</module>
+    <module>mof-spec</module>
+    <module>mof-api</module>
+    <module>mof-impl</module>
   </modules>
 </project>
