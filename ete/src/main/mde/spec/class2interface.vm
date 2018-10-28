@@ -1,0 +1,33 @@
+package ${current.owningPackage.name};
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
+import javax.annotation.Generated;
+
+
+
+@Generated("ETE ete/src/main/mde/spec/class2interface.vm")
+public interface ${prefix}${current.name} #if (
+            $current.hasSuperClasses()) extends #foreach ($aSuperClass in $current.superClass)#if ($velocityCount>1),#end ${dialect.mt2lt($aSuperClass)}#end #end {
+
+
+#if ($current.hasStereotype("toto"))
+#end
+
+#foreach ($aProperty in $current.ownedAttribute)
+
+#if ($aProperty.type.collection)
+#parse ("accesseurs_mutateurs/sequence.vm")
+#if (${current.getValueOf("relation")})
+#parse ("accesseurs_mutateurs/inherited.vm")
+#end
+#else
+#parse ("accesseurs_mutateurs/one.vm")
+#if ($current.hasStereotype("inheritance"))
+#parse ("accesseurs_mutateurs/inherited.vm")
+#end
+#end## if getValueOf("relation")
+#end## foreach
+
+}

@@ -1,0 +1,7 @@
+#set ($name=$aProperty.type.name)
+#if (
+    $name=="boolean")Boolean#elseif(
+    $name=="String")String#elseif(
+    $name=="int" || $name=="Integer")Integer#elseif(
+    $name=="double" || $name=="float")Double#elseif(
+    $aProperty.type.hasStereotype("ignore")).ofNullable(value.get${dialect.i2uc($aProperty.name)}())${name}Optional#else${prefix}${name}Optional.ofNullable(value.get${dialect.i2uc($aProperty.name)}())#end

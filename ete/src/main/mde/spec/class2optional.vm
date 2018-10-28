@@ -1,0 +1,68 @@
+package ${current.owningPackage.name};
+
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
+import javax.annotation.Generated;
+
+
+@Generated("ETE ete/src/main/mde/spec/class2optional.vm")
+public class ${prefix}${current.name}Optional #if (
+            $current.hasSuperClasses()) extends ${dialect.mt2lt($current.superClass.get(0))}Optional #end implements ${prefix}${current.name} {
+
+
+    public static ${prefix}${current.name}Optional ofNullable(${prefix}${current.name} inValue) {
+        ${prefix}${current.name}Optional result = new ${prefix}${current.name}Optional();
+        result.value = inValue;
+        return result;
+    }
+
+
+    public boolean isPresent() {
+        return value != null;
+    }
+
+
+    public ${prefix}${current.name} get() {
+        return value;
+    }
+
+
+    //==========================================================================//
+
+
+#foreach ($aProperty in $current.ownedAttribute)
+
+#if ($aProperty.type.collection)
+#parse ("optional/sequence_impl.vm")
+#else
+#parse ("optional/one_impl.vm")
+#end
+
+#end
+
+
+#if ($current.hasSuperClasses())
+#foreach ($aSuperClass in $current.superClass)
+#if ($velocityCount > 1)
+#foreach ($aProperty in $aSuperClass.ownedAttribute)
+#if ($aProperty.type.collection)
+#parse ("optional/sequence_impl.vm")
+#else
+#parse ("optional/one_impl.vm")
+#end#end
+#end## if velocityCount > 1
+#end## foreach superclass
+#end
+
+
+    //==========================================================================//
+
+
+    private ${prefix}${current.name}    value;
+
+}

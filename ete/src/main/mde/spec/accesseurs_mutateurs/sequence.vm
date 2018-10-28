@@ -1,0 +1,6 @@
+
+    public void set${dialect.i2uc($aProperty.name)}(${dialect.mt2lt($aProperty.type)} ${aProperty.name});
+    public ${dialect.mt2lt($aProperty.type)} get${dialect.i2uc($aProperty.name)}();
+    public boolean add${prefix}${dialect.i2uc($aProperty.name)}(${prefix}${dialect.i2uc($aProperty.type.baseType.name)} anElement);
+    public boolean remove${prefix}${dialect.i2uc($aProperty.name)}(${prefix}${dialect.i2uc($aProperty.type.baseType.name)} anElement);
+    public Stream<${prefix}${dialect.i2uc($aProperty.type.baseType.name)}> get${prefix}${dialect.i2uc($aProperty.name)}AsStream();

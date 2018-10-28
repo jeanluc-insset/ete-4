@@ -1,0 +1,10 @@
+#set ($name=$aProperty.type.name)
+#if (
+    $name=="boolean"
+    || $name=="String"
+    || $name=="int" || $name=="Integer"
+    || $name=="Object" || $name=="Date"
+    || $name=="double" || $name=="float")value.get${dialect.i2uc($aProperty.name)}()#elseif(
+    $aProperty.type.hasStereotype("ignore"))value.get${dialect.i2uc($aProperty.name)}()#elseif(
+    $aProperty.type.enumeration)value.get${dialect.i2uc($aProperty.name)}()#elseif(
+    $aProperty.type.hasStereotype("ignore")).ofNullable(value.get${dialect.i2uc($aProperty.name)}())${name}Optional#else${prefix}${name}Optional.ofNullable(value.get${dialect.i2uc($aProperty.name)}())#end

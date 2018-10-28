@@ -1,0 +1,4 @@
+
+    public void set${dialect.i2uc($aProperty.name)}(#parse("type.vm") ${aProperty.name});
+    public #parse("type.vm") get${dialect.i2uc($aProperty.name)}();
+

@@ -1,0 +1,7 @@
+    public default ${dialect.mt2lt($aProperty.type)} getAll${dialect.i2uc($aProperty.name)}() {
+        ${dialect.mt2lt($aProperty.type)}   result = get${dialect.i2uc($aProperty.name)}();
+        for (${dialect.mt2lt($current)} aSuperItem : get${dialect.i2uc($current.getValueOf("relation"))}()) {
+            result.addAll(aSuperItem.getAll${dialect.i2uc($aProperty.name)}());
+        }
+        return result;
+    }

@@ -3,12 +3,18 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>fr.upjv.mis.ete</groupId>
-        <artifactId>ete-toolchain-4</artifactId>
+        <artifactId>mof</artifactId>
         <version>4.0</version>
     </parent>
-    <artifactId>ete</artifactId>
-    <packaging>pom</packaging>
-  <modules>
-    <module>mof</module>
-  </modules>
+    <artifactId>mof-impl</artifactId>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>fr.upjv.mis.ete</groupId>
+            <artifactId>mof-api</artifactId>
+            <version>4.0</version>
+        </dependency>
+    </dependencies>
+
 </project>
