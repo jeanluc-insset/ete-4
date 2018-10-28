@@ -1,0 +1,44 @@
+
+    public void set${dialect.i2uc($aProperty.name)}(${dialect.mt2lt($aProperty.type)} ${aProperty.name}) {
+        value.set${dialect.i2uc($aProperty.name)}(${aProperty.name});
+    }
+
+    public ${dialect.mt2lt($aProperty.type)} get${dialect.i2uc($aProperty.name)}() {
+        if (value == null) {
+            return Collections.EMPTY_LIST;
+        }
+        ${dialect.mt2lt($aProperty.type)} aux = value.get${dialect.i2uc($aProperty.name)}();
+        if (aux == null) {
+            return Collections.EMPTY_LIST;
+        }
+        ${dialect.mt2lt($aProperty.type)} result = new LinkedList();
+        for (${dialect.mt2lt($aProperty.type.baseType)} anElement : aux) {
+            result.add(${dialect.mt2lt($aProperty.type.baseType)}Optional.ofNullable(anElement));
+        }
+        return result;
+    }
+
+    public boolean add${prefix}${dialect.i2uc($aProperty.name)}(${prefix}${dialect.i2uc($aProperty.type.baseType.name)} anElement) {
+        if (value != null) {
+            return value.add${prefix}${dialect.i2uc($aProperty.name)}(anElement);
+        }
+        return false;
+    }
+
+    public boolean remove${prefix}${dialect.i2uc($aProperty.name)}(${prefix}${dialect.i2uc($aProperty.type.baseType.name)} anElement) {
+        if (value != null) {
+            return value.add${prefix}${dialect.i2uc($aProperty.name)}(anElement);
+        }
+        return false;
+    }
+
+    public Stream<${prefix}${dialect.i2uc($aProperty.type.baseType.name)}> get${prefix}${dialect.i2uc($aProperty.name)}AsStream() {
+        if (value == null) {
+            return Stream.empty();
+        }
+        Collection<${prefix}${dialect.i2uc($aProperty.type.baseType.name)}> coll = value.get${dialect.i2uc($aProperty.name)}();
+        if (coll == null) {
+            return Stream.empty();
+        }
+        return coll.stream();
+    }

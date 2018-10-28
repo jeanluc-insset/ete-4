@@ -1,0 +1,10 @@
+package ${current.owningPackage.name};
+
+
+public enum ${prefix}${current.name} {
+#foreach ($aLiteral in $current.literal)#if ($velocityCount>1),
+    $aLiteral.value
+#else
+    $aLiteral.value#end
+#end;
+}

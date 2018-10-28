@@ -1,0 +1,55 @@
+package ${current.owningPackage.name};
+
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Stream;
+import javax.annotation.Generated;
+
+
+@Generated("ETE ete/src/main/mde/spec/class2class.vm")
+public class ${prefix}${current.name}Impl #if (
+            $current.hasSuperClasses()) extends ${dialect.mt2lt($current.superClass.get(0))}Impl #end implements ${prefix}${current.name} {
+
+#foreach ($aProperty in $current.ownedAttribute)
+
+#if ($aProperty.type.collection)
+#parse ("accesseurs_mutateurs/sequence_impl.vm")
+#else
+#parse ("accesseurs_mutateurs/one_impl.vm")
+#end
+
+#end
+
+
+#if ($current.hasSuperClasses())
+#foreach ($aSuperClass in $current.superClass)
+#if ($velocityCount > 1)
+#foreach ($aProperty in $aSuperClass.ownedAttribute)
+#if ($aProperty.type.collection)
+#parse ("accesseurs_mutateurs/sequence_impl.vm")
+#else
+#parse ("accesseurs_mutateurs/one_impl.vm")
+#end#end
+#end## if velocityCount > 1
+#end## foreach superclass
+#end
+
+
+    //==========================================================================//
+
+#if ($current.hasSuperClasses())
+#foreach ($aSuperClass in $current.superClass)
+#if ($velocityCount > 1)
+#foreach ($aProperty in $aSuperClass.ownedAttribute)
+    private #if ($aProperty.type.collection) ${dialect.mt2lt($aProperty.type)}#else #parse("type.vm") #end ${aProperty.name};
+#end
+#end## if velocityCount > 1
+#end## foreach superclass
+#end
+
+#foreach ($aProperty in $current.ownedAttribute)
+    private #if ($aProperty.type.collection) ${dialect.mt2lt($aProperty.type)}#else #parse("type.vm") #end ${aProperty.name};
+#end
+
+}
