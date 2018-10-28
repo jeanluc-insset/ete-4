@@ -3,13 +3,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>fr.upjv.mis.ete</groupId>
-        <artifactId>ete-toolchain-4</artifactId>
+        <artifactId>gel</artifactId>
         <version>4.0</version>
     </parent>
-    <artifactId>ete</artifactId>
-    <packaging>pom</packaging>
-  <modules>
-    <module>mof</module>
-    <module>gel</module>
-  </modules>
+    <artifactId>gel-api</artifactId>
+    <packaging>jar</packaging>
 </project>

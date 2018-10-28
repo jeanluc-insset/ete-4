@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<mda>
+
+
+    <transformation-set output_base="../../" prefix="${dialect.i2uc(artifactId)}">
+
+        <model  url="gel.xml"/>
+
+        <module src="../../../../../src/main/mde/spec/ete-config.xml"
+                project="gel"/>
+
+
+    </transformation-set>
+
+</mda>
+
+
+
