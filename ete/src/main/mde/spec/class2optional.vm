@@ -1,6 +1,10 @@
 package ${current.owningPackage.name};
 
 
+#foreach ($aDependency in $current.dependencies)
+import ${aDependency.owningPackage.name}.${dialect.mt2lt($aDependency)};
+#end
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -11,8 +15,11 @@ import javax.annotation.Generated;
 
 
 @Generated("ETE ete/src/main/mde/spec/class2optional.vm")
+#if ($current.hasSuperClasses())
+#set ($superClass = $current.superClass.get(0))
+#end
 public class ${prefix}${current.name}Optional #if (
-            $current.hasSuperClasses()) extends ${dialect.mt2lt($current.superClass.get(0))}Optional #end implements ${prefix}${current.name} {
+            $current.hasSuperClasses()) extends ${superClass.owningPackage.name}.${dialect.mt2lt($superClass)}Optional #end implements ${prefix}${current.name} {
 
 
     public static ${prefix}${current.name}Optional ofNullable(${prefix}${current.name} inValue) {

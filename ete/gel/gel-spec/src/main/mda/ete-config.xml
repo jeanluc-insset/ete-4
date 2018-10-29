@@ -4,12 +4,12 @@
 <mda>
 
 
-    <transformation-set output_base="../../" prefix="Mof">
+    <transformation-set output_base="../../" prefix="Gel">
 
-        <model  url="mof.xml"/>
+        <model  url="gel.xml"/>
 
         <module src="../../../../../src/main/mde/spec/ete-config.xml"
-                project="mof"/>
+                project="gel"/>
 
 
     </transformation-set>

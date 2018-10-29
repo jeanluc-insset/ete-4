@@ -4,7 +4,7 @@
 <mda>
 
 
-    <transformation-set output_base="../${project}" prefix="Mof">
+    <transformation-set output_base="../${project}">
 
 
         <velocity template="class2interface.vm"
