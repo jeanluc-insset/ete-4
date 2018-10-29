@@ -4,7 +4,7 @@
 <mda>
 
 
-    <transformation-set output_base="../../" prefix="${dialect.i2uc(artifactId)}">
+    <transformation-set output_base="../../" prefix="Mof">
 
         <model  url="mof.xml"/>
 

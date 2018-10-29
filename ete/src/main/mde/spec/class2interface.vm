@@ -1,5 +1,9 @@
 package ${current.owningPackage.name};
 
+#foreach ($aDependency in $current.dependencies)
+import ${aDependency.owningPackage.name}.${dialect.mt2lt($aDependency)};
+#end
+
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;

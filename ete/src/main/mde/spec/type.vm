@@ -3,4 +3,5 @@
     $name=="boolean")Boolean#elseif(
     $name=="String")String#elseif(
     $name=="int" || $name=="Integer")Integer#elseif(
-    $name=="double" || $name=="float")Double#else${prefix}${name}#end
+    $aProperty.type.enumeration)${prefix}${name}#elseif(
+    $aProperty.type.hasStereotype("ignore"))${name}#else${prefix}${name}#end

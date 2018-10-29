@@ -1,6 +1,10 @@
 package ${current.owningPackage.name};
 
 
+#foreach ($aDependency in $current.dependencies)
+import ${aDependency.owningPackage.name}.${dialect.mt2lt($aDependency)};
+#end
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -8,8 +12,11 @@ import javax.annotation.Generated;
 
 
 @Generated("ETE ete/src/main/mde/spec/class2class.vm")
+#if ($current.hasSuperClasses())
+#set ($superClass = $current.superClass.get(0))
+#end
 public class ${prefix}${current.name}Impl #if (
-            $current.hasSuperClasses()) extends ${dialect.mt2lt($current.superClass.get(0))}Impl #end implements ${prefix}${current.name} {
+            $current.hasSuperClasses()) extends ${superClass.owningPackage.name}.${dialect.mt2lt($superClass)}Impl #end implements ${prefix}${current.name} {
 
 #foreach ($aProperty in $current.ownedAttribute)
 
