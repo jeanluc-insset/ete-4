@@ -11,9 +11,28 @@
 
     <artifactId>gel-spec</artifactId>
     <packaging>jar</packaging>
+    <name>gel-spec</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>fr.insset.jeanluc</groupId>
+            <artifactId>el-evaluator</artifactId>
+            <version>3.1</version>
+            <type>jar</type>
+        </dependency>
+        <!-- although the code is generated in another project, antlr4 tries to
+                compile it from this project so we need this dependency -->
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4-runtime</artifactId>
+            <version>4.7.1</version>
+            <type>jar</type>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
+
             <plugin>
                 <groupId>fr.insset.jeanluc</groupId>
                 <artifactId>ete-maven-plugin</artifactId>
@@ -35,15 +54,29 @@
                     </execution>
                 </executions>
             </plugin>
+
+
+            <plugin>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-maven-plugin</artifactId>
+                <version>4.7.1</version>
+                <configuration>
+                    <visitor>true</visitor>
+                    <listener>true</listener>
+                    <sourceDirectory>${basedir}/src/main/antlr4</sourceDirectory>
+                    <outputDirectory>${basedir}/../gel-impl/src/main/java</outputDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>antlr</id>
+                        <goals>
+                            <goal>antlr4</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
         </plugins>
     </build>
-    <name>gel-spec</name>
-    <dependencies>
-        <dependency>
-            <groupId>fr.insset.jeanluc</groupId>
-            <artifactId>el-evaluator</artifactId>
-            <version>3.1</version>
-            <type>jar</type>
-        </dependency>
-    </dependencies>
+
 </project>
