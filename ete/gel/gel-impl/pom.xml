@@ -36,6 +36,12 @@
             <version>${antlr-version}</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>fr.insset.jeanluc</groupId>
+            <artifactId>util</artifactId>
+            <version>1.1</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 
 </project>
