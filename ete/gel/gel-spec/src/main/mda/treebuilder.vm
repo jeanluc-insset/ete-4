@@ -1,0 +1,48 @@
+package fr.upjv.mis.ete.gel;
+
+
+import fr.insset.jeanluc.util.factory.FactoryRegistry;
+import fr.insset.jeanluc.util.visit.DynamicVisitorSupport;
+import fr.upjv.mis.GelLexer;
+import fr.upjv.mis.GelParser;
+import fr.upjv.mis.GelParser.GelExpressionContext;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+
+
+/**
+ * Creates an abstract tree from a gel expression.<br>
+ * Uses the default Gel parser provided by antlr.
+ *
+ * @author jldeleage
+ */
+public class TreeBuilder extends DynamicVisitorSupport {
+
+
+    public TreeBuilder() {
+        FactoryRegistry registry = FactoryRegistry.getRegistry();
+#foreach ($aClass in $current.classes)
+#if ($aClass.getValueOf("symbol"))
+        registry.registerDefaultFactory("${aClass.getValueOf("symbol")}", Gel${aClass.name}Impl.class);
+#end
+#end
+    }
+
+
+    public GelExpression build(String inExpression, Object inContext) {
+        GelLexer lexer = null;
+        ANTLRInputStream input = new ANTLRInputStream(inExpression);
+        lexer = new GelLexer(input);
+        CommonTokenStream commonTokenStream = new CommonTokenStream(lexer);
+        GelParser parser = new GelParser(commonTokenStream);
+        GelParser.GelExpressionContext gelExpression = parser.gelExpression();
+        return visitGelExpressionContext(gelExpression);
+    }
+
+    public GelExpression visitGelExpressionContext(GelExpressionContext inContext, Object... inParam) {
+        return null;
+    }
+
+
+}
+
