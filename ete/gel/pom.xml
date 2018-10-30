@@ -9,9 +9,14 @@
     <artifactId>gel</artifactId>
     <packaging>pom</packaging>
     <version>4.0</version>
-  <modules>
-    <module>gel-spec</module>
-    <module>gel-impl</module>
-    <module>gel-api</module>
-  </modules>
+
+    <properties>
+        <antlr-version>4.7.1</antlr-version>
+    </properties>
+
+    <modules>
+        <module>gel-spec</module>
+        <module>gel-impl</module>
+        <module>gel-api</module>
+    </modules>
 </project>

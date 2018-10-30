@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>gel-spec</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <name>gel-spec</name>
 
     <dependencies>
@@ -24,14 +24,25 @@
                 compile it from this project so we need this dependency -->
         <dependency>
             <groupId>org.antlr</groupId>
-            <artifactId>antlr4-runtime</artifactId>
-            <version>4.7.1</version>
+            <artifactId>antlr4</artifactId>
+            <version>${antlr-version}</version>
             <type>jar</type>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <compilerArgument>-proc:none</compilerArgument>
+                </configuration>
+            </plugin>
 
             <plugin>
                 <groupId>fr.insset.jeanluc</groupId>
@@ -59,7 +70,7 @@
             <plugin>
                 <groupId>org.antlr</groupId>
                 <artifactId>antlr4-maven-plugin</artifactId>
-                <version>4.7.1</version>
+                <version>${antlr-version}</version>
                 <configuration>
                     <visitor>true</visitor>
                     <listener>true</listener>

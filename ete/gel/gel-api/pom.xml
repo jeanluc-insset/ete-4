@@ -6,9 +6,12 @@
         <artifactId>gel</artifactId>
         <version>4.0</version>
     </parent>
+
     <artifactId>gel-api</artifactId>
     <packaging>jar</packaging>
+
     <dependencies>
+
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>mof-api</artifactId>
