@@ -3,21 +3,17 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>fr.upjv.mis.ete</groupId>
-        <artifactId>ete</artifactId>
+        <artifactId>gel</artifactId>
         <version>4.0</version>
     </parent>
-    <artifactId>gel</artifactId>
-    <packaging>pom</packaging>
-    <version>4.0</version>
-
-    <properties>
-        <antlr-version>4.7.1</antlr-version>
-    </properties>
-
-    <modules>
-        <module>gel-spec</module>
-        <module>gel-impl</module>
-        <module>gel-api</module>
-        <module>gel-eval</module>
-    </modules>
+    <artifactId>gel-eval</artifactId>
+    <packaging>jar</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>fr.upjv.mis.ete</groupId>
+            <artifactId>gel-api</artifactId>
+            <version>4.0</version>
+            <type>jar</type>
+        </dependency>
+    </dependencies>
 </project>
