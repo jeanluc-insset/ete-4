@@ -19,5 +19,6 @@
         <module>gel-impl</module>
         <module>gel-api</module>
         <module>gel-eval</module>
+        <module>gel-test-utils</module>
     </modules>
 </project>
