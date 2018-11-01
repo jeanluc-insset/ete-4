@@ -2,12 +2,16 @@ package fr.upjv.mis.ete.gel;
 
 
 import fr.insset.jeanluc.util.factory.FactoryRegistry;
-import fr.insset.jeanluc.util.visit.DynamicVisitorSupport;
 import fr.upjv.mis.GelLexer;
 import fr.upjv.mis.GelParser;
 import fr.upjv.mis.GelParser.GelExpressionContext;
-import org.antlr.v4.runtime.ANTLRInputStream;
+import fr.upjv.mis.GelParserBaseVisitor;
+import java.util.List;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CodePointCharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+
 
 
 /**
@@ -16,7 +20,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
  *
  * @author jldeleage
  */
-public class TreeBuilder extends DynamicVisitorSupport {
+public class TreeBuilder extends GelParserBaseVisitor<GelExpression> {
 
 
     public TreeBuilder() {
@@ -31,17 +35,28 @@ public class TreeBuilder extends DynamicVisitorSupport {
 
     public GelExpression build(String inExpression, Object inContext) {
         GelLexer lexer = null;
-        ANTLRInputStream input = new ANTLRInputStream(inExpression);
+        CodePointCharStream input = CharStreams.fromString(inExpression);
         lexer = new GelLexer(input);
         CommonTokenStream commonTokenStream = new CommonTokenStream(lexer);
         GelParser parser = new GelParser(commonTokenStream);
         GelParser.GelExpressionContext gelExpression = parser.gelExpression();
-        return visitGelExpressionContext(gelExpression);
+        return visitGelExpression(gelExpression);
     }
 
-    public GelExpression visitGelExpressionContext(GelExpressionContext inContext, Object... inParam) {
+    @Override
+    public GelExpression visitGelExpression(GelExpressionContext inContext) {
+        List<ParseTree>     children = inContext.children;
+        return visit(children.get(0));
+    }
+
+#foreach ($aClass in $current.classes)
+#if ($aClass.getValueOf("symbol"))
+    @Override
+    public GelExpression visit${aClass.name}Expression(GelParser.${aClass.name}ExpressionContext ctx) {
         return null;
     }
+#end
+#end
 
 
 }
