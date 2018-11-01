@@ -187,7 +187,7 @@ step:
     | atPreExpression
     | asTypeExpression
     | methodNavExpression
-    | collectionMethodNavExpression
+    | collOpExpression
 ;
 
 
@@ -228,7 +228,7 @@ methodNavExpression
     : functionCall OF
 ;
 
-collectionMethodNavExpression
+collOpExpression
     : functionCall OF
 ;
 
