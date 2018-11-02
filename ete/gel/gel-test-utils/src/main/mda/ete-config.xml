@@ -4,7 +4,7 @@
 <mda>
 
 
-    <transformation-set output_base="../../" prefix="Gel">
+    <transformation-set>
 
         <module src="../mde/ete-config.xml"
                 project="gel"/>

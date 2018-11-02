@@ -1,7 +1,8 @@
 package fr.upjv.mis.ete.gel.eval;
 
 
-import fr.insset.jeanluc.ete.gel.GelExpression;
+
+import fr.upjv.mis.ete.gel.GelExpression;
 
 
 /**

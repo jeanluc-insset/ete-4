@@ -4,11 +4,12 @@
 <mda>
 
 
-    <transformation-set output_base="../../" prefix="Gel">
+    <transformation-set>
 
         <model  url="../../../../gel-spec/src/main/mda/gel.xml"/>
 
-
+        <velocity template="expressionbuilder.vm"
+                  target='generated-sources/ete/fr/upjv/mis/ete/gel/test/utils/ExpressionBuilder.java'/>
 
     </transformation-set>
 
