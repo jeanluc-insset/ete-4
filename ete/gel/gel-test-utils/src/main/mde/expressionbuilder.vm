@@ -80,7 +80,7 @@ public class ExpressionBuilder {
     //==========================================================================//
 
 
-    protected boolean checkEquals(GelExpression expResult, GelExpression result) throws Exception {
+    public boolean checkEquals(GelExpression expResult, GelExpression result) throws Exception {
         if (!Objects.equals(expResult.getClass(), result.getClass())) {
             throw new Exception("Wrong type : expected " + expResult.getClass().getName()
                             + " got " + result.getClass().getName());
