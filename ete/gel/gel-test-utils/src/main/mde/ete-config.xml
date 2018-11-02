@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<mda>
+
+
+    <transformation-set>
+
+        <model  url="../../../../gel-spec/src/main/mda/gel.xml"/>
+
+        <velocity template="expressionbuilder.vm"
+                  target='generated-sources/ete/fr/upjv/mis/ete/gel/test/utils/ExpressionBuilder.java'/>
+
+    </transformation-set>
+
+</mda>
+
+
+

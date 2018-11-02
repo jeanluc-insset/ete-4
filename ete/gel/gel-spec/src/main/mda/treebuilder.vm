@@ -26,13 +26,18 @@ import org.antlr.v4.runtime.tree.ParseTree;
 public class TreeBuilder extends GelParserBaseVisitor<GelExpression> {
 
 
-    public TreeBuilder() {
+    public static void initFactories() {
         FactoryRegistry registry = FactoryRegistry.getRegistry();
 #foreach ($aClass in $current.classes)
 #if ($aClass.getValueOf("symbol"))
         registry.registerDefaultFactory("${aClass.getValueOf("symbol")}", Gel${aClass.name}Impl.class);
 #end
 #end
+    }
+
+
+    public TreeBuilder() {
+        TreeBuilder.initFactories();
     }
 
 

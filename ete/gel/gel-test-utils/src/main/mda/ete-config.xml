@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<mda>
+
+
+    <transformation-set>
+
+        <module src="../mde/ete-config.xml"
+                project="gel"/>
+
+
+    </transformation-set>
+
+</mda>
+
+
+
