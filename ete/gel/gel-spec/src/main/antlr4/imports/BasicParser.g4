@@ -171,15 +171,32 @@ parenthesisExpression:
 ;
 
 
-navExpression
-    : 
-        (
-            step
-            OF
-        )*
-        primitive
-        finalStep ?
+navExpression:
+//    rightToLeft
+    leftToRight
 ;
+
+rightToLeft: 
+    (
+        step
+        ofRightToLeft
+    )*
+    primitive
+    finalStep ?
+;
+
+
+leftToRight:
+    primitive
+    (
+        ofLeftToRight
+        step
+    )*
+    finalStep?
+;
+
+ofRightToLeft : OF;
+ofLeftToRight : OF;
 
 
 step:
