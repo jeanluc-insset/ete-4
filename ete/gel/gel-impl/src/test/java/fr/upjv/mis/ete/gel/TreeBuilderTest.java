@@ -42,10 +42,18 @@ public class TreeBuilderTest {
 
 
     @Test
-    public void testAdd() throws InstantiationException, IllegalAccessException {
-//        ExpressionBuilder expBuilder = new ExpressionBuilder();
-//        GelExpression     expExpression = expBuilder.add(expBuilder.literal(2), expBuilder.literal(5));
-//        testBuild("2 + 5", expExpression);
+    public void testIntLiteral() throws Exception {
+        ExpressionBuilder expBuilder = new ExpressionBuilder();
+        GelExpression     expExpression = expBuilder.literal(2);
+        testBuild("2", expExpression, expBuilder);
+    }
+
+
+    @Test
+    public void testAdd() throws Exception {
+        ExpressionBuilder expBuilder = new ExpressionBuilder();
+        GelExpression     expExpression = expBuilder.add(expBuilder.literal(2), expBuilder.literal(5));
+        testBuild("2 + 5", expExpression, expBuilder);
     }
 
 

@@ -28,9 +28,19 @@ public class TreeBuilder extends GelParserBaseVisitor<GelExpression> {
 
     public static void initFactories() {
         FactoryRegistry registry = FactoryRegistry.getRegistry();
+        // operators
 #foreach ($aClass in $current.classes)
 #if ($aClass.getValueOf("symbol"))
-        registry.registerDefaultFactory("${aClass.getValueOf("symbol")}", Gel${aClass.name}Impl.class);
+#set ($strings = $aClass.getValueOf("symbol").split(" "))
+#foreach ($aSymbol in $strings)
+        registry.registerDefaultFactory("$aSymbol", Gel${aClass.name}Impl.class);
+#end
+#end
+#end
+        // literals
+#foreach ($aClass in $current.classes)
+#if ($aClass.hasStereotype("literal"))
+        registry.registerDefaultFactory("${dialect.i2lc($aClass.name)}", Gel${aClass.name}Impl.class);
 #end
 #end
     }
