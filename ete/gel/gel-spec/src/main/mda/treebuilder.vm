@@ -84,8 +84,8 @@ public class TreeBuilder extends GelParserBaseVisitor<GelExpression> {
                 GelExpression right = visit(children.get(2));
                 String symbol = children.get(1).getText();
                 result = (GelExpression) FactoryRegistry.newInstance(symbol);
-                result.addOperand(left);
-                result.addOperand(right);
+                result.add${prefix}Operand(left);
+                result.add${prefix}Operand(right);
             } catch (InstantiationException ex) {
                 Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IllegalAccessException ex) {
@@ -116,10 +116,19 @@ public class TreeBuilder extends GelParserBaseVisitor<GelExpression> {
 #if ($aClass.hasStereotype("literal"))
     @Override
     public GelExpression visit${aClass.name}(GelParser.${aClass.name}Context ctx) {
-        ${prefix}Literal result = (${prefix}Literal) FactoryRegistry.newInstance("${aClass.name}");
-        result.setValue(ctx.getText());
-        return result;
+        try {
+            ${prefix}Literal result = (${prefix}Literal) FactoryRegistry.newInstance("${aClass.name}");
+            result.setValue(ctx.getText());
+            return result;
+        } catch (InstantiationException ex) {
+            Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // We should return a specific GelExpression stating the error
+        return null;
     }
+
 #end
 #end
 

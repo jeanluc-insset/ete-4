@@ -336,10 +336,11 @@ parameterList:
 literal
     : integerLiteral
     | floatingPointLiteral
-//    | booleanLiteral
+    | booleanLiteral
     | dateLiteral
     | characterLiteral
     | stringLiteral
+    | regexLiteral
     | nullLiteral
 ;
 
@@ -348,9 +349,10 @@ literal
 identifier           : Identifier;
 integerLiteral       : IntegerLiteral;
 floatingPointLiteral : FloatingPointLiteral;
-// booleanLiteral       : BooleanLiteral;
+booleanLiteral       : BooleanLiteral;
 dateLiteral          : DateLiteral;
 characterLiteral     : CharacterLiteral;
 stringLiteral        : StringLiteral;
 nullLiteral          : NullLiteral;
+regexLiteral         : RegexLiteral;
 
