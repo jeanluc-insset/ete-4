@@ -4,6 +4,7 @@ package fr.upjv.mis.ete.gel.test.utils;
 
 import fr.insset.jeanluc.util.factory.FactoryRegistry;
 import fr.upjv.mis.ete.gel.GelExpression;
+import fr.upjv.mis.ete.gel.GelLiteral;
 import fr.upjv.mis.ete.gel.GelNav;
 import fr.upjv.mis.ete.mof.MofFeature;
 import java.util.Iterator;
@@ -50,14 +51,27 @@ public class ExpressionBuilder {
     //==========================================================================//
 
 
-    public GelExpression literal(String inValue) {
-        return null;
+    public GelExpression literal(String inValue) throws InstantiationException, IllegalAccessException {
+        GelLiteral result = (GelLiteral) FactoryRegistry.newInstance("stringLiteral");
+        result.setValue(inValue);
+        return result;
     }
 
-    public GelExpression literal(int inValue) {
-        return null;
+    public GelExpression literal(int inValue) throws InstantiationException, IllegalAccessException {
+        GelLiteral result = (GelLiteral) FactoryRegistry.newInstance("integerLiteral");
+        result.setValue("" + inValue);
+        return result;
     }
 
+#foreach ($aClass in $current.classes)
+#if ($aClass.hasStereotype("literal"))
+    public GelExpression ${dialect.i2lc($aClass.name)}literal(String inValue) throws InstantiationException, IllegalAccessException {
+        GelLiteral result = (GelLiteral) FactoryRegistry.newInstance("${dialect.i2lc($aClass.name)}");
+        result.setValue(inValue);
+        return result;
+    }
+#end
+#end
 
 
     //==========================================================================//
