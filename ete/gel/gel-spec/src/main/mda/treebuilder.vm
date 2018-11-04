@@ -97,6 +97,8 @@ public class TreeBuilder extends GelParserBaseVisitor<GelExpression> {
 
 #foreach ($aClass in $current.classes)
 #if ($aClass.getValueOf("symbol"))
+// ${aClass.getValueOf("rule")}
+#if (!$aClass.getValueOf("rule"))
     @Override
     public GelExpression visit${aClass.name}Expression(GelParser.${aClass.name}ExpressionContext ctx) {
 #if ($aClass.getValueOf("arity") == 2)
@@ -105,6 +107,8 @@ public class TreeBuilder extends GelParserBaseVisitor<GelExpression> {
         return null;
 #end
     }
+
+#end
 #end
 #end
 
