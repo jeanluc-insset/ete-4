@@ -223,10 +223,10 @@ BinaryExponentIndicator
 
 // §3.10.3 Boolean Literals
 
-// BooleanLiteral
-//    :   'true'
-//    |   'false'
-//    ;
+BooleanLiteral
+    :   'true'
+    |   'false'
+    ;
 
 
 // Added by JL
@@ -234,6 +234,9 @@ BinaryExponentIndicator
 DateLiteral
     : '"' Digit Digit Digit Digit SUB Digit Digit SUB Digit Digit '"';
 
+
+RegexLiteral
+    : DIV (CharacterLiteral | LPAREN | RPAREN | LBRACK | RBRACK | LBRACE | RBRACE)* DIV;
 
 // §3.10.4 Character Literals
 
