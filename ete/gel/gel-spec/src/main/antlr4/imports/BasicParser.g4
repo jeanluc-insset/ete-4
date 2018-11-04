@@ -128,28 +128,27 @@ differentExpression : addOrSubExpression NOTEQUAL addOrSubExpression;
 addOrSubExpression :
     multOrDivExpression
     (
-        addExpression 
-      | subExpression
+        addOrSubOperator
+        multOrDivExpression
     )*
 ;
 
 
-addExpression : ADD multOrDivExpression;
-subExpression : SUB multOrDivExpression;
+
+
+
+addOrSubOperator : ADD | SUB;
 
 
 multOrDivExpression :
     operand
     (
-          multExpression
-        | divExpression
-        | modExpression
+        multDivOperator
+        operand
     )*
 ;
 
-multExpression : MUL operand;
-divExpression  : DIV operand;
-modExpression  : MOD operand;
+multDivOperator : MUL | DIV | MOD;
 
 
 //============================================================================//
