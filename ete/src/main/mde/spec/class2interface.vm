@@ -16,8 +16,20 @@ public interface ${prefix}${current.name} #if (
             $current.hasSuperClasses()) extends #foreach ($aSuperClass in $current.superClass)#if ($velocityCount>1),#end ${dialect.mt2lt($aSuperClass)}#end #end {
 
 
-#if ($current.hasStereotype("toto"))
+#foreach ($aTVDeclaration in $current.tagValues.keySet())
+#set ($tagName = $aTVDeclaration.name)
+#set ($tagType = $aTVDeclaration.valueType)
+#set ($tagValue = $current.getValueOf($tagName))
+    public default $tagType.name get${dialect.i2uc($tagName)}() {
+#if ($tagType.name == "String")
+        return "$tagValue";
+#else
+        return $tagValue;
 #end
+    }
+
+#end
+
 
 #foreach ($aProperty in $current.ownedAttribute)
 
