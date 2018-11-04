@@ -8,6 +8,13 @@
     }
 
     public boolean add${prefix}${dialect.i2uc($aProperty.name)}(${prefix}${dialect.i2uc($aProperty.type.baseType.name)} anElement) {
+        if (${aProperty.name} == null) {
+            try {
+                ${aProperty.name} = FactoryMethods.newList(${dialect.mt2lt($aProperty.type.baseType)}.class);
+            } catch (Exception e) {
+                Logger.getGlobal().log(Level.WARNING, "Unable to create a list");
+            }
+        }
         return ${aProperty.name}.add(anElement);
     }
 

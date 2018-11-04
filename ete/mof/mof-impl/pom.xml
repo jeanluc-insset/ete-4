@@ -15,6 +15,12 @@
             <artifactId>mof-api</artifactId>
             <version>4.0</version>
         </dependency>
+        <dependency>
+            <groupId>fr.insset.jeanluc</groupId>
+            <artifactId>util</artifactId>
+            <version>1.1</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 
 </project>
