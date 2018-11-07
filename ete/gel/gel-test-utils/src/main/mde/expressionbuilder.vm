@@ -102,13 +102,15 @@ public class ExpressionBuilder {
         List<GelExpression>     expOperands = expResult.getOperand();
         List<GelExpression>     resultOperands = result.getOperand();
         if (expOperands == null) {
-            if (resultOperands == null) {
-                return true;
+            if (resultOperands != null) {
+                throw new Exception("No operand collection expected");
             }
-            throw new Exception("No operand collection expected");
+            GelLiteral      expLiteral = (GelLiteral)expResult;
+            GelLiteral      resultLiteral = (GelLiteral)result;
+            return Objects.equals(expLiteral.getValue(), resultLiteral.getValue());
         }
         Iterator<GelExpression> expIterator = expOperands.iterator();
-        Iterator<GelExpression> resultIterator = expOperands.iterator();
+        Iterator<GelExpression> resultIterator = resultOperands.iterator();
         while (expIterator.hasNext() && resultIterator.hasNext()) {
             GelExpression expOp = expIterator.next();
             GelExpression resultOp = resultIterator.next();

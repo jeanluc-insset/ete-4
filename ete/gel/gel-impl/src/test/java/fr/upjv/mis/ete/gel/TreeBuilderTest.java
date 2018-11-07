@@ -51,9 +51,49 @@ public class TreeBuilderTest {
 
     @Test
     public void testAdd() throws Exception {
+        System.out.println("add");
         ExpressionBuilder expBuilder = new ExpressionBuilder();
         GelExpression     expExpression = expBuilder.add(expBuilder.literal(2), expBuilder.literal(5));
         testBuild("2 + 5", expExpression, expBuilder);
+    }
+
+    @Test
+    public void testComplex() throws Exception {
+        System.out.println("complex gel expression");
+        ExpressionBuilder expBuilder = new ExpressionBuilder();
+        GelExpression     expExpression = expBuilder.add(expBuilder.literal(2),
+                expBuilder.mult(expBuilder.literal(5),expBuilder.literal(3)));
+        testBuild("2 + 5 * 3", expExpression, expBuilder);
+    }
+
+    @Test
+    public void testComplex2() throws Exception {
+        System.out.println("complex gel expression 2");
+        ExpressionBuilder expBuilder = new ExpressionBuilder();
+        GelExpression     expExpression = expBuilder.add(
+                expBuilder.mult(expBuilder.literal(5),expBuilder.literal(3)),
+                expBuilder.literal(2));
+        testBuild("5 * 3 + 1", expExpression, expBuilder);
+    }
+
+    @Test
+    public void testComplex3() throws Exception {
+        System.out.println("complex gel expression 3");
+        ExpressionBuilder expBuilder = new ExpressionBuilder();
+        GelExpression     expExpression = expBuilder.sub(
+                expBuilder.sub(expBuilder.literal(5),expBuilder.literal(3)),
+                expBuilder.literal(2));
+        testBuild("5 - 3 - 2", expExpression, expBuilder);
+    }
+
+    @Test
+    public void testComplex4() throws Exception {
+        System.out.println("complex gel expression 4");
+        ExpressionBuilder expBuilder = new ExpressionBuilder();
+        GelExpression     expExpression = expBuilder.sub(
+                expBuilder.literal(5), expBuilder.sub(expBuilder.literal(3),
+                expBuilder.literal(2)));
+        testBuild("5 - (3 - 2)", expExpression, expBuilder);
     }
 
 
@@ -68,7 +108,9 @@ public class TreeBuilderTest {
         Object inContext = null;
         TreeBuilder instance = new TreeBuilder();
         GelExpression result = instance.build(inExpression, inContext);
-        expBuilder.checkEquals(expResult, result);
+        if (!expBuilder.checkEquals(expResult, result)) {
+            fail(result + " is different from " + expResult);
+        }
     }
 
 
