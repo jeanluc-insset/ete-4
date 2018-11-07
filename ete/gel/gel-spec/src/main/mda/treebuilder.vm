@@ -2,13 +2,14 @@ package fr.upjv.mis.ete.gel;
 
 
 import fr.insset.jeanluc.util.factory.FactoryRegistry;
-import fr.upjv.mis.GelLexer;
-import fr.upjv.mis.GelParser;
-import fr.upjv.mis.GelParser.GelExpressionContext;
-import fr.upjv.mis.GelParserBaseVisitor;
+import fr.upjv.mis.${prefix}Lexer;
+import fr.upjv.mis.${prefix}Parser;
+import fr.upjv.mis.${prefix}Parser.${prefix}ExpressionContext;
+import fr.upjv.mis.${prefix}ParserBaseVisitor;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.antlr.v4.runtime.CharStreams;
@@ -21,11 +22,11 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 /**
  * Creates an abstract tree from a gel expression.<br>
- * Uses the default Gel parser provided by antlr.
+ * Uses the default ${prefix} parser provided by antlr.
  *
  * @author jldeleage
  */
-public class TreeBuilder extends GelParserBaseVisitor<GelExpression> {
+public class TreeBuilder extends ${prefix}ParserBaseVisitor<${prefix}Expression> {
 
 
     public static void initFactories() {
@@ -35,14 +36,14 @@ public class TreeBuilder extends GelParserBaseVisitor<GelExpression> {
 #if ($aClass.getValueOf("symbol"))
 #set ($strings = $aClass.getValueOf("symbol").split(" "))
 #foreach ($aSymbol in $strings)
-        registry.registerDefaultFactory("$aSymbol", Gel${aClass.name}Impl.class);
+        registry.registerDefaultFactory("$aSymbol", ${prefix}${aClass.name}Impl.class);
 #end
 #end
 #end
         // literals
 #foreach ($aClass in $current.classes)
 #if ($aClass.hasStereotype("literal"))
-        registry.registerDefaultFactory("${dialect.i2lc($aClass.name)}", Gel${aClass.name}Impl.class);
+        registry.registerDefaultFactory("${dialect.i2lc($aClass.name)}", ${prefix}${aClass.name}Impl.class);
 #end
 #end
     }
@@ -53,13 +54,13 @@ public class TreeBuilder extends GelParserBaseVisitor<GelExpression> {
     }
 
 
-    public GelExpression build(String inExpression, Object inContext) {
-        GelLexer lexer = null;
+    public ${prefix}Expression build(String inExpression, Object inContext) {
+        ${prefix}Lexer lexer = null;
         CodePointCharStream input = CharStreams.fromString(inExpression);
-        lexer = new GelLexer(input);
+        lexer = new ${prefix}Lexer(input);
         CommonTokenStream commonTokenStream = new CommonTokenStream(lexer);
-        GelParser parser = new GelParser(commonTokenStream);
-        GelParser.GelExpressionContext gelExpression = parser.gelExpression();
+        ${prefix}Parser parser = new ${prefix}Parser(commonTokenStream);
+        ${prefix}Parser.${prefix}ExpressionContext gelExpression = parser.gelExpression();
         return visit(gelExpression);
     }
 
@@ -68,7 +69,7 @@ public class TreeBuilder extends GelParserBaseVisitor<GelExpression> {
 
 
     @Override
-    public GelExpression visit(ParseTree tree) {
+    public ${prefix}Expression visit(ParseTree tree) {
         switch (((ParserRuleContext) tree).getChildCount()) {
             case 1:
                 return super.visit(tree);
@@ -83,16 +84,16 @@ public class TreeBuilder extends GelParserBaseVisitor<GelExpression> {
     //==========================================================================//
 
 
-    protected GelExpression visitBinary(ParserRuleContext inContext) {
+    protected ${prefix}Expression visitBinary(ParserRuleContext inContext) {
         List<ParseTree>     children = inContext.children;
-        GelExpression result = visit(children.get(0));
+        ${prefix}Expression result = visit(children.get(0));
         if (children.size() > 1) {
             try {
-                GelExpression left = result;
-                GelExpression right = visit(children.get(2));
+                ${prefix}Expression left = result;
+                ${prefix}Expression right = visit(children.get(2));
                 String symbol = children.get(1).getText();
                 System.out.println("Visiting the binary operator " + symbol);
-                result = (GelExpression) FactoryRegistry.newInstance(symbol);
+                result = (${prefix}Expression) FactoryRegistry.newInstance(symbol);
                 result.add${prefix}Operand(left);
                 result.add${prefix}Operand(right);
             } catch (InstantiationException ex) {
@@ -104,15 +105,20 @@ public class TreeBuilder extends GelParserBaseVisitor<GelExpression> {
         return result;
     }
 
-    protected GelExpression visitHalf(ParserRuleContext inContext) {
+
+    protected ${prefix}Expression visitHalf(ParserRuleContext inContext) {
         List<ParseTree>     children = inContext.children;
-        GelExpression result;
-        GelExpression right = visit(children.get(1));
+        ${prefix}Expression result;
+        ${prefix}Expression left = stack.pop();
+        ${prefix}Expression right = visit(children.get(1));
         String symbol = children.get(0).getText();
         try {
             System.out.println("Visiting the \"half\" binary operator " + symbol);
-            result = (GelExpression) FactoryRegistry.newInstance(symbol);
+            result = (${prefix}Expression) FactoryRegistry.newInstance(symbol);
+            result.add${prefix}Operand(left);
             result.add${prefix}Operand(right);
+            stack.push(result);
+            return result;
         } catch (InstantiationException ex) {
             Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
@@ -125,7 +131,7 @@ public class TreeBuilder extends GelParserBaseVisitor<GelExpression> {
 #if ($aClass.getValueOf("symbol"))
 ##if (!$aClass.getValueOf("rule"))
     @Override
-    public GelExpression visit${aClass.name}Expression(GelParser.${aClass.name}ExpressionContext ctx) {
+    public ${prefix}Expression visit${aClass.name}Expression(${prefix}Parser.${aClass.name}ExpressionContext ctx) {
 #if ($aClass.getValueOf("arity").equals("2"))
         return visitBinary(ctx);
 #elseif ($aClass.getValueOf("arity") == "half")
@@ -139,24 +145,6 @@ public class TreeBuilder extends GelParserBaseVisitor<GelExpression> {
 #end
 #end
 
-    //==========================================================================//
-
-/*
-#foreach ($aClass in $current.classes)
-#if ($aClass.getValueOf("rule"))
-    @Override
-    public GelExpression visit${dialect.i2uc($rule)}Expression(GelParser.${dialect.i2uc($rule)}ExpressionContext ctx) {
-#if ($aClass.getValueOf("arity").equals("2"))
-        return visit(ctx.getChild(1));
-#else
-        return null;
-#end
-    }
-    
-#end
-#end
-*/
-
 
     //==========================================================================//
 
@@ -164,17 +152,18 @@ public class TreeBuilder extends GelParserBaseVisitor<GelExpression> {
 #foreach ($aClass in $current.classes)
 #if ($aClass.hasStereotype("literal"))
     @Override
-    public GelExpression visit${aClass.name}(GelParser.${aClass.name}Context ctx) {
+    public ${prefix}Expression visit${aClass.name}(${prefix}Parser.${aClass.name}Context ctx) {
         try {
             ${prefix}Literal result = (${prefix}Literal) FactoryRegistry.newInstance("${dialect.i2lc($aClass.name)}");
             result.setValue(ctx.getText());
+            stack.push(result);
             return result;
         } catch (InstantiationException ex) {
             Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
             Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
         }
-        // We should return a specific GelExpression stating the error
+        // We should return a specific ${prefix}Expression stating the error
         return null;
     }
 
@@ -182,7 +171,7 @@ public class TreeBuilder extends GelParserBaseVisitor<GelExpression> {
 #end
 
 
-    private     Map<String, Class>      symbols = new HashMap<>();
+    private     Stack<${prefix}Expression>      stack = new Stack<>();
 
 }
 
