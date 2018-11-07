@@ -61,6 +61,7 @@ public class TreeBuilder extends ${prefix}ParserBaseVisitor<${prefix}Expression>
         CommonTokenStream commonTokenStream = new CommonTokenStream(lexer);
         ${prefix}Parser parser = new ${prefix}Parser(commonTokenStream);
         ${prefix}Parser.${prefix}ExpressionContext gelExpression = parser.gelExpression();
+        stack.push(new Context());
         return visit(gelExpression);
     }
 
@@ -92,7 +93,6 @@ public class TreeBuilder extends ${prefix}ParserBaseVisitor<${prefix}Expression>
                 ${prefix}Expression left = result;
                 ${prefix}Expression right = visit(children.get(2));
                 String symbol = children.get(1).getText();
-                System.out.println("Visiting the binary operator " + symbol);
                 result = (${prefix}Expression) FactoryRegistry.newInstance(symbol);
                 result.add${prefix}Operand(left);
                 result.add${prefix}Operand(right);
@@ -109,7 +109,7 @@ public class TreeBuilder extends ${prefix}ParserBaseVisitor<${prefix}Expression>
     protected ${prefix}Expression visitHalf(ParserRuleContext inContext) {
         List<ParseTree>     children = inContext.children;
         ${prefix}Expression result;
-        ${prefix}Expression left = stack.pop();
+        ${prefix}Expression left = stack.peek().expression;
         ${prefix}Expression right = visit(children.get(1));
         String symbol = children.get(0).getText();
         try {
@@ -117,7 +117,7 @@ public class TreeBuilder extends ${prefix}ParserBaseVisitor<${prefix}Expression>
             result = (${prefix}Expression) FactoryRegistry.newInstance(symbol);
             result.add${prefix}Operand(left);
             result.add${prefix}Operand(right);
-            stack.push(result);
+            stack.peek().expression = result;
             return result;
         } catch (InstantiationException ex) {
             Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
@@ -126,6 +126,20 @@ public class TreeBuilder extends ${prefix}ParserBaseVisitor<${prefix}Expression>
         }
         return null;
     }
+
+
+    @Override
+    public GelExpression visitParenthesisExpression(GelParser.ParenthesisExpressionContext ctx) {
+        stack.push(new Context());
+        GelExpression result = super.visitParenthesisExpression(ctx);
+        result = stack.pop().expression;
+        return result;
+    }
+
+
+
+    //==========================================================================//
+
 
 #foreach ($aClass in $current.classes)
 #if ($aClass.getValueOf("symbol"))
@@ -156,7 +170,7 @@ public class TreeBuilder extends ${prefix}ParserBaseVisitor<${prefix}Expression>
         try {
             ${prefix}Literal result = (${prefix}Literal) FactoryRegistry.newInstance("${dialect.i2lc($aClass.name)}");
             result.setValue(ctx.getText());
-            stack.push(result);
+            stack.peek().expression = result;
             return result;
         } catch (InstantiationException ex) {
             Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
@@ -170,8 +184,12 @@ public class TreeBuilder extends ${prefix}ParserBaseVisitor<${prefix}Expression>
 #end
 #end
 
+    private class Context {
+        public      GelExpression       expression;
+    }
 
-    private     Stack<${prefix}Expression>      stack = new Stack<>();
+
+    private     Stack<Context>      stack = new Stack<>();
 
 }
 

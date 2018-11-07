@@ -104,7 +104,6 @@ public class TreeBuilderTest {
      * Test tree built by a TreeBuilder for inExpression.
      */
     public void testBuild(String inExpression, GelExpression expResult, ExpressionBuilder expBuilder) throws Exception {
-        System.out.println("build");
         Object inContext = null;
         TreeBuilder instance = new TreeBuilder();
         GelExpression result = instance.build(inExpression, inContext);
