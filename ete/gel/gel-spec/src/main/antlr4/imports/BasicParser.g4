@@ -27,11 +27,6 @@ options {
 
 
 
-eteExpression :
-    basicExpression
-;
-
-
 basicExpression :
     xorExpression
 ;
@@ -127,28 +122,35 @@ differentExpression : addOrSubExpression NOTEQUAL addOrSubExpression;
 
 addOrSubExpression :
     multOrDivExpression
-    (
-        addOrSubOperator
-        multOrDivExpression
-    )*
+    addOrSubHalfExpression*
 ;
 
 
+addOrSubHalfExpression :
+    addExpression
+    | subExpression
+;
 
 
+addExpression : ADD multOrDivExpression;
+subExpression : SUB multOrDivExpression;
 
-addOrSubOperator : ADD | SUB;
 
 
 multOrDivExpression :
     operand
-    (
-        multDivOperator
-        operand
-    )*
+    multOrDivHalfExpression*
 ;
 
-multDivOperator : MUL | DIV | MOD;
+multOrDivHalfExpression :
+    multExpression
+    | divExpression
+    | modExpression;
+
+multExpression : MUL operand;
+divExpression  : DIV operand;
+modExpression  : MOD operand;
+
 
 
 //============================================================================//
@@ -166,7 +168,7 @@ operand
 
 
 parenthesisExpression:
-    LPAREN eteExpression RPAREN
+    LPAREN basicExpression RPAREN
 ;
 
 
@@ -213,8 +215,8 @@ finalStep :
 
 
 oclIsNew    :   IS NEW;
-oclIsTypeOf :   IS OF TYPE eteExpression;
-oclIsKindOf :   IS OF KIND eteExpression;
+oclIsTypeOf :   IS OF TYPE basicExpression;
+oclIsKindOf :   IS OF KIND basicExpression;
 
 
 primitive
@@ -237,7 +239,7 @@ atPreExpression
 
 
 asTypeExpression
-    : AS TYPE eteExpression
+    : AS TYPE basicExpression
 ;
 
 methodNavExpression
@@ -320,7 +322,7 @@ variableReference : THE Identifier;
 
 parameterList:
     (
-        ( eteExpression COMMA )* eteExpression
+        ( basicExpression COMMA )* basicExpression
     )
     |
     ()

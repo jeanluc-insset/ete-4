@@ -82,7 +82,7 @@ public class ExpressionBuilder {
     public GelExpression ${dialect.i2lc($aClass.name)}(GelExpression inLeft) throws InstantiationException, IllegalAccessException {
         return buildUnary(inLeft, "${aClass.getValueOf("symbol")}");
     }
-#elseif ($aClass.getValueOf("arity") == 2)
+#elseif ($aClass.getValueOf("arity") == "2" || $aClass.getValueOf("arity") == "half")
     public GelExpression ${dialect.i2lc($aClass.name)}(GelExpression inLeft, GelExpression inRight) throws InstantiationException, IllegalAccessException {
         return buildBinary(inLeft, inRight, "${aClass.getValueOf("symbol")}");
     }
