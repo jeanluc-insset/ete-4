@@ -96,6 +96,11 @@ public class TreeBuilderTest {
         testBuild("5 - (3 - 2)", expExpression, expBuilder);
     }
 
+    @Test
+    public void testNavigation() throws Exception {
+        System.out.println("Navigation");
+        ExpressionBuilder expBuilder = new ExpressionBuilder();
+    }
 
     //==========================================================================//
 

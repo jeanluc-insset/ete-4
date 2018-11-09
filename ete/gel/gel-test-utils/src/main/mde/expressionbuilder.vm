@@ -10,6 +10,7 @@ import fr.upjv.mis.ete.mof.MofFeature;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import javax.annotation.Generated;
 
 
 /**
@@ -17,7 +18,13 @@ import java.util.Objects;
  *
  * @author jldeleage
  */
+@Generated("ete/gel/gel-test-utils/src/main/mde/expressionbuilder.vm")
 public class ExpressionBuilder {
+
+
+    public GelExpression startFrom(MofType inType) {
+        return null;
+    }
 
 
     public GelExpression    navTo(MofFeature inTo) throws InstantiationException, IllegalAccessException {
