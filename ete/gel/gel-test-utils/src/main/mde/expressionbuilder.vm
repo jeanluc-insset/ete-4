@@ -7,6 +7,7 @@ import fr.upjv.mis.ete.gel.GelExpression;
 import fr.upjv.mis.ete.gel.GelLiteral;
 import fr.upjv.mis.ete.gel.GelNav;
 import fr.upjv.mis.ete.mof.MofFeature;
+import fr.upjv.mis.ete.mof.MofType;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -29,12 +30,21 @@ public class ExpressionBuilder {
 
     public GelExpression    navTo(MofFeature inTo) throws InstantiationException, IllegalAccessException {
         GelNav result = (GelNav) FactoryRegistry.newInstance(".");
-        result.addGelOperand(current);
+        if (current != null)
+            result.addGelOperand(current);
         result.setTarget(inTo);
         current = result;
         return result;
     }
 
+    public GelExpression    navTo(String inTo) throws InstantiationException, IllegalAccessException {
+        GelNav result = (GelNav) FactoryRegistry.newInstance(".");
+        if (current != null)
+            result.addGelOperand(current);
+        result.setIdentifier(inTo);
+        current = result;
+        return result;
+    }
 
     //==========================================================================//
 
