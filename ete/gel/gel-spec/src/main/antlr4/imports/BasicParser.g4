@@ -251,9 +251,9 @@ collOpExpression
 ;
 
 
-variableOrMember: THE identifier;
+variableOrMember: identifier;
 
-variableOrMemberAtPre: THE INITIAL identifier ;
+variableOrMemberAtPre: identifier ATPRE ;
 
 
 functionCall :
