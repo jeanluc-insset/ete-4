@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<mda>
+
+
+    <transformation-set output_base="../../" prefix="Gel">
+
+        <model  url="gel.xml"/>
+
+        <module src="../../../../../src/main/mde/spec/ete-config.xml"
+                project="gel"/>
+
+        <velocity template="treebuilder.vm"
+                  target='gel-impl/src/main/java/fr/upjv/mis/ete/gel/TreeBuilder.java'/>
+
+
+    </transformation-set>
+
+</mda>
+
+
+
