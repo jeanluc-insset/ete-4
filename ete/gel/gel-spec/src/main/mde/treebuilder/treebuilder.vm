@@ -115,7 +115,6 @@ public class TreeBuilder extends ${prefix}ParserBaseVisitor<${prefix}Expression>
         ${prefix}Expression right = visit(children.get(1));
         String symbol = children.get(0).getText();
         try {
-            System.out.println("Visiting the \"half\" binary operator " + symbol);
             result = (${prefix}Expression) FactoryRegistry.newInstance(symbol);
             result.add${prefix}Operand(left);
             result.add${prefix}Operand(right);
@@ -147,10 +146,9 @@ public class TreeBuilder extends ${prefix}ParserBaseVisitor<${prefix}Expression>
 #if ($aClass.getValueOf("symbol"))
     @Override
     public ${prefix}Expression visit${aClass.name}Expression(${prefix}Parser.${aClass.name}ExpressionContext ctx) {
-#if ($aClass.getValueOf("arity").equals("2"))
-        return visitBinary(ctx);
-#elseif ($aClass.getValueOf("arity") == "half")
-        return visitHalf(ctx);
+#if ($aClass.getValueOf("arity"))
+#set ($template=$aClass.getValueOf("arity") + ".vm")
+#parse ($template)
 #else
         return null;
 #end
@@ -185,9 +183,49 @@ public class TreeBuilder extends ${prefix}ParserBaseVisitor<${prefix}Expression>
 #end
 #end
 
+
+
+
+    //==========================================================================//
+
+
+
+    @Override
+    public GelExpression visitLeftToRight(GelParser.LeftToRightContext ctx) {
+        List<ParseTree> children = ctx.children;
+        for (ParseTree aChild : children) {
+            System.out.println("    child class of navigation expression " + aChild.getClass().getName());
+        }
+        return null;
+    }
+
+    @Override
+    public GelExpression visitRightToLeft(GelParser.RightToLeftContext ctx) {
+        List<ParseTree> children = ctx.children;
+        for (ParseTree aChild : children) {
+            System.out.println("    child class of navigation expression " + aChild.getClass().getName());
+        }
+        return null;
+    }
+
+
+
+
+
+    //==========================================================================//
+
+
+    /**
+     * Utility class to keep track of sub expressions parsing
+     */
     private class Context {
         public      GelExpression       expression;
     }
+
+
+
+    //==========================================================================//
+
 
 
     private     Stack<Context>      stack = new Stack<>();

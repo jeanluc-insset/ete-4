@@ -1,0 +1,5 @@
+        List<ParseTree> children = ctx.children;
+        for (ParseTree aChild : children) {
+            System.out.println("    child class of navigation expression " + aChild.getClass().getName());
+        }
+        return super.visitNavExpression(ctx);
