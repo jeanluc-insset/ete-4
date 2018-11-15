@@ -18,8 +18,13 @@ public interface ${prefix}${current.name} #if (
 
 #foreach ($aTVDeclaration in $current.tagValues.keySet())
 #set ($tagName = $aTVDeclaration.name)
+#if ($aTVDeclaration.valueType)
 #set ($tagType = $aTVDeclaration.valueType)
+#else
+#set ($tagType="String")
+#end
 #set ($tagValue = $current.getValueOf($tagName))
+    // Tagged value of ${tagName}
     public default $tagType get${dialect.i2uc($tagName)}() {
 #if ($tagType == "String")
         return "$tagValue";
