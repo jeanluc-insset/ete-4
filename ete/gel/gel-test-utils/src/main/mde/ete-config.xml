@@ -6,7 +6,7 @@
 
     <transformation-set>
 
-        <model  url="../../../../gel-spec/src/main/mda/gel.xml"/>
+        <model  url="../../../../gel-spec/src/main/mde/gel.xml"/>
 
         <velocity template="expressionbuilder.vm"
                   target='generated-sources/ete/fr/upjv/mis/ete/gel/test/utils/ExpressionBuilder.java'/>
