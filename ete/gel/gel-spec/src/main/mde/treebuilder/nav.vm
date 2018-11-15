@@ -1,4 +1,5 @@
         List<ParseTree> children = ctx.children;
+        System.out.println("class of navigation : " + ctx.getClass().getName());
         for (ParseTree aChild : children) {
             System.out.println("    child class of navigation expression " + aChild.getClass().getName());
         }

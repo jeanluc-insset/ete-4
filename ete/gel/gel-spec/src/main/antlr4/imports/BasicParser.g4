@@ -221,7 +221,7 @@ oclIsKindOf :   IS OF KIND basicExpression;
 
 start
     : selfExpression
-    | variableRef
+    | variableRefExpression
     | variableOrMemberAtPre
 ;
 
@@ -251,7 +251,7 @@ collOpExpression
 ;
 
 
-variableRef: identifier;
+variableRefExpression: identifier;
 
 variableOrMemberAtPre: identifier ATPRE ;
 
