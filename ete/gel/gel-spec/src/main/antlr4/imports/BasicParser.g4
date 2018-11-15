@@ -182,13 +182,13 @@ rightToLeft:
         step
         ofRightToLeft
     )*
-    primitive
+    start
     finalStep ?
 ;
 
 
 leftToRight:
-    primitive
+    start
     (
         ofLeftToRight
         step
@@ -219,7 +219,7 @@ oclIsTypeOf :   IS OF TYPE basicExpression;
 oclIsKindOf :   IS OF KIND basicExpression;
 
 
-primitive
+start
     : selfExpression
     | variableOrMember
     | variableOrMemberAtPre
