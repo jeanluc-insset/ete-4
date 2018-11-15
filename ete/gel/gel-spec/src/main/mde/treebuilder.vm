@@ -145,7 +145,6 @@ public class TreeBuilder extends ${prefix}ParserBaseVisitor<${prefix}Expression>
 
 #foreach ($aClass in $current.classes)
 #if ($aClass.getValueOf("symbol"))
-##if (!$aClass.getValueOf("rule"))
     @Override
     public ${prefix}Expression visit${aClass.name}Expression(${prefix}Parser.${aClass.name}ExpressionContext ctx) {
 #if ($aClass.getValueOf("arity").equals("2"))

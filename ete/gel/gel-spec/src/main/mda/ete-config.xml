@@ -4,16 +4,9 @@
 <mda>
 
 
-    <transformation-set output_base="../../" prefix="Gel">
+    <transformation-set>
 
-        <model  url="gel.xml"/>
-
-        <module src="../../../../../src/main/mde/spec/ete-config.xml"
-                project="gel"/>
-
-        <velocity template="treebuilder.vm"
-                  target='gel-impl/src/main/java/fr/upjv/mis/ete/gel/TreeBuilder.java'/>
-
+        <module src="../mde/ete-config.xml"/>
 
     </transformation-set>
 

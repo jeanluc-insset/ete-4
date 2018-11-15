@@ -100,6 +100,11 @@ public class TreeBuilderTest {
     public void testNavigation() throws Exception {
         System.out.println("Navigation");
         ExpressionBuilder expBuilder = new ExpressionBuilder();
+        GelExpression navTo = expBuilder.navTo("x")
+                                .navTo("y")
+                                .navTo("z")
+                                .getCurrent();
+        testBuild("x.y.z", navTo, expBuilder);
     }
 
     //==========================================================================//

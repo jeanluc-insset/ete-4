@@ -28,23 +28,24 @@ public class ExpressionBuilder {
     }
 
 
-    public GelExpression    navTo(MofFeature inTo) throws InstantiationException, IllegalAccessException {
+    public ExpressionBuilder    navTo(MofFeature inTo) throws InstantiationException, IllegalAccessException {
         GelNav result = (GelNav) FactoryRegistry.newInstance(".");
         if (current != null)
             result.addGelOperand(current);
         result.setTarget(inTo);
         current = result;
-        return result;
+        return this;
     }
 
-    public GelExpression    navTo(String inTo) throws InstantiationException, IllegalAccessException {
+    public ExpressionBuilder    navTo(String inTo) throws InstantiationException, IllegalAccessException {
         GelNav result = (GelNav) FactoryRegistry.newInstance(".");
         if (current != null)
             result.addGelOperand(current);
         result.setIdentifier(inTo);
         current = result;
-        return result;
+        return this;
     }
+
 
     //==========================================================================//
 
@@ -140,6 +141,14 @@ public class ExpressionBuilder {
             throw new Exception("Too many operands in " + result.getClass().getName());
         }
         return true;
+    }
+
+
+    //==========================================================================//
+
+
+    public GelExpression getCurrent() {
+        return current;
     }
 
 
