@@ -197,7 +197,7 @@ leftToRight:
 ;
 
 ofRightToLeft : OF;
-ofLeftToRight : OF;
+ofLeftToRight : DOT;
 
 
 step:
