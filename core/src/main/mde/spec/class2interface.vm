@@ -18,25 +18,15 @@ public interface ${prefix}${current.name} #if (
 
 #foreach ($aTVDeclaration in $current.tagValues.keySet())
 #set ($tagName = $aTVDeclaration.name)
-#set ($tagType = $aTVDeclaration.valueType)
-#set ($tagValue = $current.getValueOf($tagName))
-    public default $tagType.name get${dialect.i2uc($tagName)}() {
-#if ($tagType.name == "String")
-        return "$tagValue";
-#else
-        return $tagValue;
-#end
-    }
-
 #if ($aTVDeclaration.valueType)
-#set ($tagType = $aTVDeclaration.valueType)
+#set ($tagTypeName = $aTVDeclaration.valueType.name)
 #else
-#set ($tagType="String")
+#set ($tagTypeName="String")
 #end
 #set ($tagValue = $current.getValueOf($tagName))
     // Tagged value of ${tagName}
-    public default $tagType get${dialect.i2uc($tagName)}() {
-#if ($tagType == "String")
+    public default $tagTypeName get${dialect.i2uc($tagName)}() {
+#if ($tagTypeName == "String")
         return "$tagValue";
 #else
         return $tagValue;
