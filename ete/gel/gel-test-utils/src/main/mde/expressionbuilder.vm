@@ -117,15 +117,25 @@ public class ExpressionBuilder {
             throw new Exception("Wrong type : expected " + expResult.getClass().getName()
                             + " got " + result.getClass().getName());
         }
+        if (expResult instanceof GelNav) {
+            GelNav expNav = (GelNav)expResult;
+            GelNav resultNav = (GelNav)result;
+            if (!Objects.equals(expNav.getIdentifier(), resultNav.getIdentifier())) {
+                return false;
+            }
+        }
         List<GelExpression>     expOperands = expResult.getOperand();
         List<GelExpression>     resultOperands = result.getOperand();
         if (expOperands == null) {
             if (resultOperands != null) {
                 throw new Exception("No operand collection expected");
             }
-            GelLiteral      expLiteral = (GelLiteral)expResult;
-            GelLiteral      resultLiteral = (GelLiteral)result;
-            return Objects.equals(expLiteral.getValue(), resultLiteral.getValue());
+            if (expResult instanceof GelLiteral) {
+                GelLiteral      expLiteral = (GelLiteral)expResult;
+                GelLiteral      resultLiteral = (GelLiteral)result;
+                return Objects.equals(expLiteral.getValue(), resultLiteral.getValue());
+            }
+            return true;
         }
         Iterator<GelExpression> expIterator = expOperands.iterator();
         Iterator<GelExpression> resultIterator = resultOperands.iterator();
