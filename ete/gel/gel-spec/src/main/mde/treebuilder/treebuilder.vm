@@ -187,18 +187,39 @@ ${dialect.print("*** ")}
 
 
 
-
     //==========================================================================//
 
+//    protected GelExpression resolve(GelExpression partialNavigation, String inIdentifier) {
+//        try {
+//            GelNav result = (GelNav) FactoryRegistry.newInstance(".");
+//            if (partialNavigation != null) {
+//                result.addGelOperand(partialNavigation);
+//            }
+//            result.setIdentifier(inIdentifier);
+//            return result;
+//        } catch (InstantiationException | IllegalAccessException ex) {
+//            Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
+//            throw new RuntimeException(ex);
+//        }
+//    }
 
 
     @Override
     public GelExpression visitLeftToRight(GelParser.LeftToRightContext ctx) {
         List<ParseTree> children = ctx.children;
+        GelExpression partialNavigation = null;
         for (ParseTree aChild : children) {
-            System.out.println("    child class of navigation expression " + aChild.getClass().getName());
+            System.out.println("    " + aChild.getText() + " is in navigation expression, its class is " + aChild.getClass().getName());
+            GelExpression childVisit = visit(aChild);
+            if (childVisit != null) {
+                System.out.println("        it is a navigation...");
+                if (partialNavigation != null) {
+                    childVisit.addGelOperand(partialNavigation);
+                }
+                partialNavigation = childVisit;
+            }
         }
-        return null;
+        return partialNavigation;
     }
 
     @Override
@@ -210,7 +231,47 @@ ${dialect.print("*** ")}
         return null;
     }
 
+    @Override
+    public GelExpression visitStart(GelParser.StartContext ctx) {
+        try {
+            GelNav result = (GelNav) FactoryRegistry.newInstance(".");
+            result.setIdentifier(ctx.getText());
+            return result;
+        } catch (InstantiationException ex) {
+            Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return super.visitStart(ctx); //To change body of generated methods, choose Tools | Templates.
+    }
 
+    @Override
+    public GelExpression visitFinalStep(GelParser.FinalStepContext ctx) {
+        try {
+            GelNav result = (GelNav) FactoryRegistry.newInstance(".");
+            result.setIdentifier(ctx.getText());
+            return result;
+        } catch (InstantiationException ex) {
+            Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return super.visitFinalStep(ctx); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public GelExpression visitStep(GelParser.StepContext ctx) {
+        try {
+            GelNav result = (GelNav) FactoryRegistry.newInstance(".");
+            result.setIdentifier(ctx.getText());
+            return result;
+        } catch (InstantiationException ex) {
+            Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return super.visitStep(ctx); //To change body of generated methods, choose Tools | Templates.
+    }
 
 
 
