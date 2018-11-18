@@ -29,6 +29,7 @@ options {
 
 basicExpression :
     xorExpression
+//    leftToRight
 ;
 
 
@@ -229,11 +230,19 @@ start
 
 
 attributeNavExpression
-    : identifier OF
+    : identifier
 ;
 
 atPreExpression
+    : prefixedAtPreExpression | postfixedAtPreExpression;
+
+
+prefixedAtPreExpression 
     : (THE | A) INITIAL identifier
+;
+
+postfixedAtPreExpression
+    : (THE | A) identifier INITIAL
 ;
 
 
