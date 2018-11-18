@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -9,30 +8,32 @@
         <version>4.0</version>
     </parent>
 
-    <artifactId>gel-spec</artifactId>
-    <packaging>pom</packaging>
-    <name>gel-spec</name>
+    <artifactId>gel-test-utils</artifactId>
+    <packaging>jar</packaging>
+
 
     <dependencies>
         <dependency>
-            <groupId>fr.insset.jeanluc</groupId>
-            <artifactId>el-evaluator</artifactId>
-            <version>3.1</version>
+            <groupId>fr.upjv.mis.ete</groupId>
+            <artifactId>gel-api</artifactId>
+            <version>4.0</version>
             <type>jar</type>
         </dependency>
-        <!-- although the code is generated in another project, antlr4 tries to
-                compile it from this project so we need this dependency -->
         <dependency>
-            <groupId>org.antlr</groupId>
-            <artifactId>antlr4</artifactId>
-            <version>${antlr-version}</version>
+            <groupId>fr.insset.jeanluc</groupId>
+            <artifactId>util</artifactId>
+            <version>1.1</version>
             <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>gel-api</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -42,6 +43,26 @@
                     <target>1.8</target>
                     <compilerArgument>-proc:none</compilerArgument>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                    <id>add-source</id>
+                    <phase>generate-sources</phase>
+                    <goals>
+                      <goal>add-source</goal>
+                    </goals>
+                    <configuration>
+                      <sources>
+                        <source>target/generated-sources/ete/</source>
+                      </sources>
+                    </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
@@ -65,28 +86,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-
-            <plugin>
-                <groupId>org.antlr</groupId>
-                <artifactId>antlr4-maven-plugin</artifactId>
-                <version>${antlr-version}</version>
-                <configuration>
-                    <visitor>true</visitor>
-                    <listener>true</listener>
-                    <sourceDirectory>${basedir}/src/main/antlr4</sourceDirectory>
-                    <outputDirectory>${basedir}/../gel-impl/src/main/java</outputDirectory>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>antlr</id>
-                        <goals>
-                            <goal>antlr4</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            
         </plugins>
     </build>
 

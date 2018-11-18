@@ -1,0 +1,297 @@
+package fr.upjv.mis.ete.gel;
+
+
+import fr.insset.jeanluc.util.factory.FactoryRegistry;
+import fr.upjv.mis.${prefix}Lexer;
+import fr.upjv.mis.${prefix}Parser;
+import fr.upjv.mis.${prefix}Parser.${prefix}ExpressionContext;
+import fr.upjv.mis.${prefix}ParserBaseVisitor;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Generated;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CodePointCharStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.ParseTree;
+
+
+
+/**
+ * Creates an abstract tree from a gel expression.<br>
+ * Uses the default ${prefix} parser provided by antlr.
+ *
+ * @author jldeleage
+ */
+@Generated("ete/gel/gel-spec/src/main/mde/treebuilder.vm")
+public class TreeBuilder extends ${prefix}ParserBaseVisitor<${prefix}Expression> {
+
+
+    public static void initFactories() {
+        FactoryRegistry registry = FactoryRegistry.getRegistry();
+        // operators
+#foreach ($aClass in $current.classes)
+#if ($aClass.getValueOf("symbol"))
+#set ($strings = $aClass.getValueOf("symbol").split(" "))
+#foreach ($aSymbol in $strings)
+        registry.registerDefaultFactory("$aSymbol", ${prefix}${aClass.name}Impl.class);
+#end
+#end
+#end
+        // literals
+#foreach ($aClass in $current.classes)
+#if ($aClass.hasStereotype("literal"))
+        registry.registerDefaultFactory("${dialect.i2lc($aClass.name)}", ${prefix}${aClass.name}Impl.class);
+#end
+#end
+    }
+
+
+    public TreeBuilder() {
+        TreeBuilder.initFactories();
+    }
+
+
+    public ${prefix}Expression build(String inExpression, Object inContext) {
+        ${prefix}Lexer lexer = null;
+        CodePointCharStream input = CharStreams.fromString(inExpression);
+        lexer = new ${prefix}Lexer(input);
+        CommonTokenStream commonTokenStream = new CommonTokenStream(lexer);
+        ${prefix}Parser parser = new ${prefix}Parser(commonTokenStream);
+        ${prefix}Parser.${prefix}ExpressionContext gelExpression = parser.gelExpression();
+        stack.push(new Context());
+        return visit(gelExpression);
+    }
+
+
+    //==========================================================================//
+
+
+    @Override
+    public ${prefix}Expression visit(ParseTree tree) {
+        switch (((ParserRuleContext) tree).getChildCount()) {
+            case 1:
+                return super.visit(tree);
+            case 3:
+                return visitBinary((ParserRuleContext) tree);
+        }
+        return super.visit(tree);
+    }
+
+
+
+    //==========================================================================//
+
+
+    protected ${prefix}Expression visitBinary(ParserRuleContext inContext) {
+        List<ParseTree>     children = inContext.children;
+        ${prefix}Expression result = visit(children.get(0));
+        if (children.size() > 1) {
+            try {
+                ${prefix}Expression left = result;
+                ${prefix}Expression right = visit(children.get(2));
+                String symbol = children.get(1).getText();
+                result = (${prefix}Expression) FactoryRegistry.newInstance(symbol);
+                result.add${prefix}Operand(left);
+                result.add${prefix}Operand(right);
+            } catch (InstantiationException ex) {
+                Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return result;
+    }
+
+
+    protected ${prefix}Expression visitHalf(ParserRuleContext inContext) {
+        List<ParseTree>     children = inContext.children;
+        ${prefix}Expression result;
+        ${prefix}Expression left = stack.peek().expression;
+        ${prefix}Expression right = visit(children.get(1));
+        String symbol = children.get(0).getText();
+        try {
+            result = (${prefix}Expression) FactoryRegistry.newInstance(symbol);
+            result.add${prefix}Operand(left);
+            result.add${prefix}Operand(right);
+            stack.peek().expression = result;
+            return result;
+        } catch (InstantiationException ex) {
+            Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+
+    @Override
+    public GelExpression visitParenthesisExpression(GelParser.ParenthesisExpressionContext ctx) {
+        stack.push(new Context());
+        GelExpression result = super.visitParenthesisExpression(ctx);
+        result = stack.pop().expression;
+        return result;
+    }
+
+
+
+    //==========================================================================//
+
+${dialect.print("*** ")}
+#foreach ($aClass in $current.classes)
+#if ($aClass.getValueOf("symbol"))
+    // arity : ${aClass.getValueOf("arity")}
+    // symbol : ${aClass.getValueOf("symbol")}
+    @Override
+    public ${prefix}Expression visit${aClass.name}Expression(${prefix}Parser.${aClass.name}ExpressionContext ctx) {
+#if ($aClass.getValueOf("arity"))
+#set ($template=$aClass.getValueOf("arity") + ".vm")
+#parse ($template)
+#else
+        return null; 
+#end
+    }
+
+##end
+#end
+#end
+
+
+    //==========================================================================//
+
+
+#foreach ($aClass in $current.classes)
+#if ($aClass.hasStereotype("literal"))
+    @Override
+    public ${prefix}Expression visit${aClass.name}(${prefix}Parser.${aClass.name}Context ctx) {
+        try {
+            ${prefix}Literal result = (${prefix}Literal) FactoryRegistry.newInstance("${dialect.i2lc($aClass.name)}");
+            result.setValue(ctx.getText());
+            stack.peek().expression = result;
+            return result;
+        } catch (InstantiationException ex) {
+            Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // We should return a specific ${prefix}Expression stating the error
+        return null;
+    }
+
+#end
+#end
+
+
+
+    //==========================================================================//
+
+//    protected GelExpression resolve(GelExpression partialNavigation, String inIdentifier) {
+//        try {
+//            GelNav result = (GelNav) FactoryRegistry.newInstance(".");
+//            if (partialNavigation != null) {
+//                result.addGelOperand(partialNavigation);
+//            }
+//            result.setIdentifier(inIdentifier);
+//            return result;
+//        } catch (InstantiationException | IllegalAccessException ex) {
+//            Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
+//            throw new RuntimeException(ex);
+//        }
+//    }
+
+
+    @Override
+    public GelExpression visitLeftToRight(GelParser.LeftToRightContext ctx) {
+        List<ParseTree> children = ctx.children;
+        GelExpression partialNavigation = null;
+        for (ParseTree aChild : children) {
+            System.out.println("    " + aChild.getText() + " is in navigation expression, its class is " + aChild.getClass().getName());
+            GelExpression childVisit = visit(aChild);
+            if (childVisit != null) {
+                System.out.println("        it is a navigation...");
+                if (partialNavigation != null) {
+                    childVisit.addGelOperand(partialNavigation);
+                }
+                partialNavigation = childVisit;
+            }
+        }
+        return partialNavigation;
+    }
+
+    @Override
+    public GelExpression visitRightToLeft(GelParser.RightToLeftContext ctx) {
+        List<ParseTree> children = ctx.children;
+        for (ParseTree aChild : children) {
+            System.out.println("    child class of navigation expression " + aChild.getClass().getName());
+        }
+        return null;
+    }
+
+    @Override
+    public GelExpression visitStart(GelParser.StartContext ctx) {
+        try {
+            GelNav result = (GelNav) FactoryRegistry.newInstance(".");
+            result.setIdentifier(ctx.getText());
+            return result;
+        } catch (InstantiationException ex) {
+            Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return super.visitStart(ctx); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public GelExpression visitFinalStep(GelParser.FinalStepContext ctx) {
+        try {
+            GelNav result = (GelNav) FactoryRegistry.newInstance(".");
+            result.setIdentifier(ctx.getText());
+            return result;
+        } catch (InstantiationException ex) {
+            Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return super.visitFinalStep(ctx); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public GelExpression visitStep(GelParser.StepContext ctx) {
+        try {
+            GelNav result = (GelNav) FactoryRegistry.newInstance(".");
+            result.setIdentifier(ctx.getText());
+            return result;
+        } catch (InstantiationException ex) {
+            Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TreeBuilder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return super.visitStep(ctx); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
+
+    //==========================================================================//
+
+
+    /**
+     * Utility class to keep track of sub expressions parsing
+     */
+    private class Context {
+        public      GelExpression       expression;
+    }
+
+
+
+    //==========================================================================//
+
+
+
+    private     Stack<Context>      stack = new Stack<>();
+
+}
+

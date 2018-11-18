@@ -28,7 +28,24 @@ public interface ${prefix}${current.name} #if (
 #end
     }
 
+#if ($aTVDeclaration.valueType)
+#set ($tagType = $aTVDeclaration.valueType)
+#else
+#set ($tagType="String")
 #end
+#set ($tagValue = $current.getValueOf($tagName))
+    // Tagged value of ${tagName}
+    public default $tagType get${dialect.i2uc($tagName)}() {
+#if ($tagType == "String")
+        return "$tagValue";
+#else
+        return $tagValue;
+#end
+    }
+
+
+#end
+
 
 
 #foreach ($aProperty in $current.ownedAttribute)

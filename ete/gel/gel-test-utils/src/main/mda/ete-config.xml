@@ -6,7 +6,9 @@
 
     <transformation-set>
 
-        <module src="../mde/ete-config.xml"/>
+        <module src="../mde/ete-config.xml"
+                project="gel"/>
+
 
     </transformation-set>
 

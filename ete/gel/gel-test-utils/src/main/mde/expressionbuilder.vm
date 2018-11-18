@@ -1,0 +1,171 @@
+package fr.upjv.mis.ete.gel.test.utils;
+
+
+
+import fr.insset.jeanluc.util.factory.FactoryRegistry;
+import fr.upjv.mis.ete.gel.GelExpression;
+import fr.upjv.mis.ete.gel.GelLiteral;
+import fr.upjv.mis.ete.gel.GelNav;
+import fr.upjv.mis.ete.mof.MofFeature;
+import fr.upjv.mis.ete.mof.MofType;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
+import javax.annotation.Generated;
+
+
+/**
+ * WARNING : in order to work, this class needs the factories to be initialized.
+ *
+ * @author jldeleage
+ */
+@Generated("ete/gel/gel-test-utils/src/main/mde/expressionbuilder.vm")
+public class ExpressionBuilder {
+
+
+    public GelExpression startFrom(MofType inType) {
+        return null;
+    }
+
+
+    public ExpressionBuilder    navTo(MofFeature inTo) throws InstantiationException, IllegalAccessException {
+        GelNav result = (GelNav) FactoryRegistry.newInstance(".");
+        if (current != null)
+            result.addGelOperand(current);
+        result.setTarget(inTo);
+        current = result;
+        return this;
+    }
+
+    public ExpressionBuilder    navTo(String inTo) throws InstantiationException, IllegalAccessException {
+        GelNav result = (GelNav) FactoryRegistry.newInstance(".");
+        if (current != null)
+            result.addGelOperand(current);
+        result.setIdentifier(inTo);
+        current = result;
+        return this;
+    }
+
+
+    //==========================================================================//
+
+
+    public GelExpression buildUnary(GelExpression inOperand, String inSymbol) throws InstantiationException, IllegalAccessException {
+        GelExpression result = (GelExpression) FactoryRegistry.newInstance(inSymbol);
+        result.addGelOperand(inOperand);
+        return result;
+    }
+
+
+
+    public GelExpression buildBinary(GelExpression inLeft, GelExpression inRight, String inSymbol) throws InstantiationException, IllegalAccessException {
+        GelExpression result = (GelExpression) FactoryRegistry.newInstance(inSymbol);
+        result.addGelOperand(inLeft);
+        result.addGelOperand(inRight);
+        return result;
+    }
+
+
+    //==========================================================================//
+
+
+    public GelExpression literal(String inValue) throws InstantiationException, IllegalAccessException {
+        GelLiteral result = (GelLiteral) FactoryRegistry.newInstance("stringLiteral");
+        result.setValue(inValue);
+        return result;
+    }
+
+    public GelExpression literal(int inValue) throws InstantiationException, IllegalAccessException {
+        GelLiteral result = (GelLiteral) FactoryRegistry.newInstance("integerLiteral");
+        result.setValue("" + inValue);
+        return result;
+    }
+
+#foreach ($aClass in $current.classes)
+#if ($aClass.hasStereotype("literal"))
+    public GelExpression ${dialect.i2lc($aClass.name)}literal(String inValue) throws InstantiationException, IllegalAccessException {
+        GelLiteral result = (GelLiteral) FactoryRegistry.newInstance("${dialect.i2lc($aClass.name)}");
+        result.setValue(inValue);
+        return result;
+    }
+#end
+#end
+
+
+    //==========================================================================//
+
+
+#foreach ($aClass in $current.classes)
+#if ($aClass.getValueOf("arity") == 1)
+    public GelExpression ${dialect.i2lc($aClass.name)}(GelExpression inLeft) throws InstantiationException, IllegalAccessException {
+        return buildUnary(inLeft, "${aClass.getValueOf("symbol")}");
+    }
+#elseif ($aClass.getValueOf("arity") == "2" || $aClass.getValueOf("arity") == "half")
+    public GelExpression ${dialect.i2lc($aClass.name)}(GelExpression inLeft, GelExpression inRight) throws InstantiationException, IllegalAccessException {
+        return buildBinary(inLeft, inRight, "${aClass.getValueOf("symbol")}");
+    }
+
+#end
+#end
+
+
+    //==========================================================================//
+
+
+    public boolean checkEquals(GelExpression expResult, GelExpression result) throws Exception {
+        if (!Objects.equals(expResult.getClass(), result.getClass())) {
+            throw new Exception("Wrong type : expected " + expResult.getClass().getName()
+                            + " got " + result.getClass().getName());
+        }
+        if (expResult instanceof GelNav) {
+            GelNav expNav = (GelNav)expResult;
+            GelNav resultNav = (GelNav)result;
+            if (!Objects.equals(expNav.getIdentifier(), resultNav.getIdentifier())) {
+                return false;
+            }
+        }
+        List<GelExpression>     expOperands = expResult.getOperand();
+        List<GelExpression>     resultOperands = result.getOperand();
+        if (expOperands == null) {
+            if (resultOperands != null) {
+                throw new Exception("No operand collection expected");
+            }
+            if (expResult instanceof GelLiteral) {
+                GelLiteral      expLiteral = (GelLiteral)expResult;
+                GelLiteral      resultLiteral = (GelLiteral)result;
+                return Objects.equals(expLiteral.getValue(), resultLiteral.getValue());
+            }
+            return true;
+        }
+        Iterator<GelExpression> expIterator = expOperands.iterator();
+        Iterator<GelExpression> resultIterator = resultOperands.iterator();
+        while (expIterator.hasNext() && resultIterator.hasNext()) {
+            GelExpression expOp = expIterator.next();
+            GelExpression resultOp = resultIterator.next();
+            checkEquals(expOp, resultOp);
+        }
+        if (expIterator.hasNext()) {
+            throw new Exception("Not enough operands in " + result.getClass().getName());
+        }
+        if  (resultIterator.hasNext()) {
+            throw new Exception("Too many operands in " + result.getClass().getName());
+        }
+        return true;
+    }
+
+
+    //==========================================================================//
+
+
+    public GelExpression getCurrent() {
+        return current;
+    }
+
+
+    //==========================================================================//
+
+
+    private GelExpression       current;
+
+}
+

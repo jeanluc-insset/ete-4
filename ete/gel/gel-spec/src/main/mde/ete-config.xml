@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<mda>
+
+
+    <transformation-set output_base="../../" prefix="Gel">
+
+        <model  url="gel.xml"/>
+
+        <module src="../../../../../src/main/mde/spec/ete-config.xml"
+                project="gel"/>
+
+        <module src="treebuilder/ete-config.xml"/>
+
+
+    </transformation-set>
+
+</mda>
+
+
+
