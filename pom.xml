@@ -18,7 +18,7 @@
     </properties>
 
     <modules>
-        <module>ete</module>
+        <module>core</module>
     </modules>
 
 </project>
