@@ -17,5 +17,6 @@
     <module>mof-spec</module>
     <module>mof-api</module>
     <module>mof-impl</module>
-  </modules>
+        <module>mof-io-api</module>
+    </modules>
 </project>

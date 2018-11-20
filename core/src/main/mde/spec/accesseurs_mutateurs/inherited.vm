@@ -1,3 +1,4 @@
+#if ($aProperty.type.collection)
     public default ${dialect.mt2lt($aProperty.type)} getAll${dialect.i2uc($aProperty.name)}() {
         ${dialect.mt2lt($aProperty.type)}   result = get${dialect.i2uc($aProperty.name)}();
         for (${dialect.mt2lt($current)} aSuperItem : get${dialect.i2uc($current.getValueOf("relation"))}()) {
@@ -5,3 +6,14 @@
         }
         return result;
     }
+#else
+    public default List<${dialect.mt2lt($aProperty.type)}> getAll${dialect.i2uc($aProperty.name)}() throws InstantiationException {
+        List<${dialect.mt2lt($aProperty.type)}>   result = FactoryMethods.newList(${dialect.mt2lt($aProperty.type)}.class);
+        ${dialect.mt2lt($current)} current = get${dialect.i2uc($current.getValueOf("relation"))}();
+        while (current != null) {
+            result.add(current.get${dialect.i2uc($aProperty.name)}());
+            current = current.get${dialect.i2uc($current.getValueOf("relation"))}();
+        }
+        return result;
+    }
+#end
