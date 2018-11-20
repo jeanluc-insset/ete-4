@@ -1,8 +1,8 @@
 package fr.upjv.mis.ete.gel;
 
 
-import fr.upjv.mis.ete.gel.GelStep;
 import fr.upjv.mis.ete.mof.MofFeature;
+import fr.upjv.mis.ete.gel.GelStep;
 
 import fr.insset.jeanluc.util.factory.FactoryMethods;
 
