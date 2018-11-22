@@ -1,11 +1,23 @@
+#set ($inherited = $current.getValueOf("relation"))
+#set ($parents = $current.getOwnedAttribute($inherited))
+#set ($parentsType = $parents.type)
 #if ($aProperty.type.collection)
     public default ${dialect.mt2lt($aProperty.type)} getAll${dialect.i2uc($aProperty.name)}() {
         ${dialect.mt2lt($aProperty.type)}   result = get${dialect.i2uc($aProperty.name)}();
+#if ($parentsType.collection)
         for (${dialect.mt2lt($current)} aSuperItem : get${dialect.i2uc($current.getValueOf("relation"))}()) {
             result.addAll(aSuperItem.getAll${dialect.i2uc($aProperty.name)}());
         }
+#else
+        ${dialect.mt2lt($current)} current = get${dialect.i2uc($current.getValueOf("relation"))}();
+        while (current != null) {
+            result.addAll(current.get${dialect.i2uc($aProperty.name)}());
+            current = current.get${dialect.i2uc($current.getValueOf("relation"))}();
+        }
+#end
         return result;
     }
+
 #else
     public default List<${dialect.mt2lt($aProperty.type)}> getAll${dialect.i2uc($aProperty.name)}() throws InstantiationException {
         List<${dialect.mt2lt($aProperty.type)}>   result = FactoryMethods.newList(${dialect.mt2lt($aProperty.type)}.class);
