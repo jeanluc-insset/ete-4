@@ -4,6 +4,7 @@
 /core/mof/mof-impl/target
 /core/mof/mof-src/target
 /core/mof/mof-spec/target/
+/core/mof/mof-spec/src/main/mda/mof.xml.bak
 /core/gel/gel-api/nbproject/
 /core/gel/gel-api/src/
 /core/gel/gel-api/target/
