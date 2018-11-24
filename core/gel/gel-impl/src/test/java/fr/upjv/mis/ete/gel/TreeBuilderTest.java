@@ -1,7 +1,6 @@
 package fr.upjv.mis.ete.gel;
 
 
-import fr.upjv.mis.GelParser;
 import fr.upjv.mis.ete.gel.test.utils.ExpressionBuilder;
 import java.util.Iterator;
 import java.util.List;
@@ -107,12 +106,10 @@ public class TreeBuilderTest {
         testBuild("x.y.z", navTo, expBuilder);
     }
 
+
+
     //==========================================================================//
 
-
-    /**
-     * Test tree built by a TreeBuilder for inExpression.
-     */
     public void testBuild(String inExpression, GelExpression expResult, ExpressionBuilder expBuilder) throws Exception {
         Object inContext = null;
         TreeBuilder instance = new TreeBuilder();
@@ -121,6 +118,7 @@ public class TreeBuilderTest {
             fail(result + " is different from " + expResult);
         }
     }
+
 
 
 }
