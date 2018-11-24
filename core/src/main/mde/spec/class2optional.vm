@@ -9,11 +9,18 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 import javax.annotation.Generated;
 
 
+/**
+ * This class implements the null reference design pattern&nbsp;:
+ * we can write complex navigations such as a.getB().getC().getD() without
+ * worrying to check any intermediate null reference.<br>
+ * The final result is an optional
+ */
 @Generated("ETE ete/src/main/mde/spec/class2optional.vm")
 #if ($current.hasSuperClasses())
 #set ($superClass = $current.superClass.get(0))
@@ -43,7 +50,6 @@ public class ${prefix}${current.name}Optional #if (
 
 
 #foreach ($aProperty in $current.ownedAttribute)
-
 #if ($aProperty.type.collection)
 #parse ("optional/sequence_impl.vm")
 #else
@@ -51,7 +57,6 @@ public class ${prefix}${current.name}Optional #if (
 #end
 
 #end
-
 
 #if ($current.hasSuperClasses())
 #foreach ($aSuperClass in $current.superClass)

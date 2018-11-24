@@ -6,6 +6,7 @@ import ${aDependency.owningPackage.name}.${dialect.mt2lt($aDependency)};
 import fr.insset.jeanluc.util.factory.FactoryMethods;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 import javax.annotation.Generated;
@@ -41,6 +42,12 @@ public interface ${prefix}${current.name} #if (
 
 #foreach ($aProperty in $current.ownedAttribute)
 
+#if ($aProperty.qualifierType)
+    public void set${dialect.i2uc($aProperty.name)}(Map<${dialect.mt2lt($aProperty.qualifierType)}, #parse("type.vm")> inValue);
+    public Map<${dialect.mt2lt($aProperty.qualifierType)}, #parse("type.vm")> get${dialect.i2uc($aProperty.name)}();
+    public #parse("type.vm") getBy${dialect.i2uc($aProperty.qualifierName)}(${aProperty.qualifierType.name} aKey);
+    public #parse("type.vm") setBy${dialect.i2uc($aProperty.qualifierName)}(${aProperty.qualifierType.name} aKey, #parse("type.vm") aValue);
+#else
 #if ($aProperty.type.collection)
 #parse ("accesseurs_mutateurs/sequence.vm")
 #else
@@ -49,6 +56,7 @@ public interface ${prefix}${current.name} #if (
 #if (${current.getValueOf("relation")})
 #parse ("accesseurs_mutateurs/inherited.vm")
 #end
+#end## qualifierType
 #end## foreach
 
 }
