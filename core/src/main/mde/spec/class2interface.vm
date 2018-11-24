@@ -43,15 +43,12 @@ public interface ${prefix}${current.name} #if (
 
 #if ($aProperty.type.collection)
 #parse ("accesseurs_mutateurs/sequence.vm")
+#else
+#parse ("accesseurs_mutateurs/one.vm")
+#end## if getValueOf("relation")
 #if (${current.getValueOf("relation")})
 #parse ("accesseurs_mutateurs/inherited.vm")
 #end
-#else
-#parse ("accesseurs_mutateurs/one.vm")
-#if ($current.hasStereotype("inheritance"))
-#parse ("accesseurs_mutateurs/inherited.vm")
-#end
-#end## if getValueOf("relation")
 #end## foreach
 
 }

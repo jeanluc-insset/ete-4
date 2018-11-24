@@ -10,7 +10,7 @@
                 project="gel"/>
 
         <velocity template="treebuilder.vm"
-                  target='gel-impl/src/main/java/fr/upjv/mis/ete/gel/TreeBuilder.java'/>
+                  target='gel-impl/target/generated-sources/ete/fr/upjv/mis/ete/gel/TreeBuilder.java'/>
 
 
     </transformation-set>
