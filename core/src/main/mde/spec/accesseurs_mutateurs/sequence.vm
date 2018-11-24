@@ -1,3 +1,21 @@
+#if ($aProperty.qualifierType)
+    public ${dialect.mt2lt($aProperty.type)} get${dialect.i2uc($aProperty.name)}(${dialect.mt2lt($aProperty.qualifierType)} inKey) {
+        return ${aProperty.name}.get(inKey);
+    }
+    public void set${dialect.i2uc($aProperty.name)}(${dialect.mt2lt($aProperty.qualifierType)} inKey, ${dialect.mt2lt($aProperty.type)} inValue) {
+        ${aProperty.name}.put(inKey, inValue);
+    }
+#if ($aProperty.isCollection())
+    public void add${dialect.i2uc($aProperty.name)}(${dialect.mt2lt($aProperty.qualifierType)} inKey, ${dialect.mt2lt($aProperty.type)} inValue) {
+        // Collection<${dialect.mt2lt($aProperty.type.baseType)}> values = ${aProperty.name}.get(inKey);
+        // if (values == null) {
+        //     values = new LinkedList<>();
+        //     ${aProperty.name}.put(inKey, values);
+        // }
+        // values.add(inValue);
+    }
+#end## qualified property and collection
+#else## not qualified property
 
     public void set${dialect.i2uc($aProperty.name)}(${dialect.mt2lt($aProperty.type)} ${aProperty.name});
     public ${dialect.mt2lt($aProperty.type)} get${dialect.i2uc($aProperty.name)}();
@@ -6,3 +24,4 @@
     public default Stream<${prefix}${dialect.i2uc($aProperty.type.baseType.name)}> get${prefix}${dialect.i2uc($aProperty.name)}AsStream() {
         return get${dialect.i2uc($aProperty.name)}().stream();
     }
+#end
