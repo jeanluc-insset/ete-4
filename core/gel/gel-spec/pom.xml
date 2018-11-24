@@ -75,7 +75,7 @@
                     <visitor>true</visitor>
                     <listener>true</listener>
                     <sourceDirectory>${basedir}/src/main/antlr4</sourceDirectory>
-                    <outputDirectory>${basedir}/../gel-impl/src/main/java</outputDirectory>
+                    <outputDirectory>${basedir}/../gel-impl/target/generated-sources/ete</outputDirectory>
                 </configuration>
                 <executions>
                     <execution>
