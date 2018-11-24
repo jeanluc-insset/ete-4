@@ -1,4 +1,32 @@
+#if ($aProperty.qualifierType)
+    public void set${dialect.i2uc($aProperty.name)}(Map<${dialect.mt2lt($aProperty.qualifierType)}, #parse("type.vm")> inValue) {
+        if (value != null) {
+            value.set${dialect.i2uc($aProperty.name)}(inValue);
+        }
+    }
 
+    public Map<${dialect.mt2lt($aProperty.qualifierType)}, #parse("type.vm")> get${dialect.i2uc($aProperty.name)}() {
+        if (value != null) {
+            return value.get${dialect.i2uc($aProperty.name)}();
+        }
+        return Collections.EMPTY_MAP;
+    }
+
+    public #parse("type.vm") getBy${dialect.i2uc($aProperty.qualifierName)}(${aProperty.qualifierType.name} aKey) {
+        if (value != null) {
+            return value.getBy${dialect.i2uc($aProperty.qualifierName)}(aKey);
+        } else {
+            return #parse("optional/of-null.vm");
+        }
+    }
+
+    public #parse("type.vm") setBy${dialect.i2uc($aProperty.qualifierName)}(${aProperty.qualifierType.name} aKey, #parse("type.vm") aValue) {
+        if (value != null) {
+            return value.setBy${dialect.i2uc($aProperty.qualifierName)}(aKey, aValue);
+        }
+        return #parse("optional/of-null.vm");
+    }
+#else
     public void set${dialect.i2uc($aProperty.name)}(#parse("type.vm") inValue) {
         if (value != null) {
             value.set${dialect.i2uc($aProperty.name)}(inValue);
@@ -11,5 +39,4 @@
         }
         return #parse("optional/of-nullable.vm");
     }
-
-
+#end

@@ -7,8 +7,10 @@ import ${aDependency.owningPackage.name}.${dialect.mt2lt($aDependency)};
 
 import fr.insset.jeanluc.util.factory.FactoryMethods;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,7 +62,11 @@ public class ${prefix}${current.name}Impl #if (
 #end
 
 #foreach ($aProperty in $current.ownedAttribute)
+#if ($aProperty.qualifierType)
+    private Map<${dialect.mt2lt($aProperty.qualifierType)}, ${dialect.mt2lt($aProperty.type)}>   ${aProperty.name} = new HashMap<>();
+#else
     private #if ($aProperty.type.collection) ${dialect.mt2lt($aProperty.type)}#else #parse("type.vm") #end ${aProperty.name};
+#end
 #end
 
 }

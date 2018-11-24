@@ -1,0 +1,8 @@
+#set ($name=$aProperty.type.name)
+#if (
+    $name=="boolean"
+    || $name=="String"
+    || $name=="int" || $name=="Integer"
+    || $name=="Object" || $name=="Date"
+    || $name=="double" || $name=="float")new Optional(aValue)#elseif(
+    $aProperty.type.hasStereotype("ignore")).ofNullable(null)${name}Optional#else${prefix}${name}Optional.ofNullable(null)#end

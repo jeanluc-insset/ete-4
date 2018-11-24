@@ -1,4 +1,20 @@
+#if (${aProperty.qualifierType})
+    public void set${dialect.i2uc($aProperty.name)}(Map<${dialect.mt2lt($aProperty.qualifierType)}, #parse("type.vm")> inValue) {
+        ${aProperty.name} = inValue;
+    }
 
+    public Map<${dialect.mt2lt($aProperty.qualifierType)}, #parse("type.vm")> get${dialect.i2uc($aProperty.name)}() {
+        return ${aProperty.name};
+    }
+
+    public #parse("type.vm") getBy${dialect.i2uc($aProperty.qualifierName)}(${aProperty.qualifierType.name} aKey) {
+        return ${aProperty.name}.get(aKey);
+    }
+
+    public #parse("type.vm") setBy${dialect.i2uc($aProperty.qualifierName)}(${aProperty.qualifierType.name} aKey, #parse("type.vm") aValue) {
+        return ${aProperty.name}.put(aKey, aValue);
+    }
+#else
     public void set${dialect.i2uc($aProperty.name)}(#parse("type.vm") inValue) {
         ${aProperty.name} = inValue;
     }
@@ -6,5 +22,5 @@
     public #parse("type.vm") get${dialect.i2uc($aProperty.name)}() {
         return ${aProperty.name};
     }
-
+#end
 

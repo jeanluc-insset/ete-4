@@ -25,3 +25,6 @@
     public Stream<${prefix}${dialect.i2uc($aProperty.type.baseType.name)}> get${prefix}${dialect.i2uc($aProperty.name)}AsStream() {
         return null;
     }
+
+// ${aProperty.qualifierType.name} -- *
+// ${aProperty.qualifierName}

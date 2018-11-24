@@ -1,0 +1,21 @@
+package fr.upjv.mis.ete.io;
+
+
+import fr.insset.jeanluc.util.factory.FactoryRegistry;
+
+
+
+
+public class InitIOFactories {
+
+
+    public static void initIOFactories() {
+        FactoryRegistry registry = FactoryRegistry.getRegistry();
+#foreach ($aClass in $current.classes)
+        // ${aClass.name}
+#end
+    }
+
+
+}
+
