@@ -1,0 +1,40 @@
+package fr.upjv.mis.ete.${dialect.i2lc($prefix)};
+
+#foreach ($aDependency in $current.dependencies)
+import ${aDependency.owningPackage.name}.${dialect.mt2lt($aDependency)};
+#end
+import fr.insset.jeanluc.util.factory.FactoryMethods;
+import fr.insset.jeanluc.util.factory.FactoryRegistry;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Stream;
+import javax.annotation.Generated;
+
+
+
+@Generated("ETE ete/src/main/mde/spec/factory.vm")
+public class ${prefix}Factories {
+
+    public static void initFactories() {
+        FactoryRegistry registry = FactoryRegistry.getRegistry();
+        // operators
+#foreach ($aClass in $current.classes)
+#if ($aClass.getValueOf("symbol"))
+#set ($strings = $aClass.getValueOf("symbol").split(" "))
+#foreach ($aSymbol in $strings)
+        registry.registerDefaultFactory("$aSymbol", ${prefix}${aClass.name}Impl.class);
+        registry.registerDefaultFactory(${prefix}${aClass.name}.class, ${prefix}${aClass.name}Impl.class);
+#end
+#end
+#end
+        // literals
+#foreach ($aClass in $current.classes)
+#if ($aClass.hasStereotype("literal"))
+        registry.registerDefaultFactory("${dialect.i2lc($aClass.name)}", ${prefix}${aClass.name}Impl.class);
+#end
+#end
+    }
+
+
+}

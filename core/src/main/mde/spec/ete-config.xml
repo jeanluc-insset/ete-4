@@ -20,7 +20,10 @@
                     target='${project}-impl/target/generated-sources/ete/${current.owningPackage.name.replaceAll("\\.", "/")}/${prefix}${current.name}Impl.java'/>
 
 
-        <!-- The optional classes allow smart navigation through objects eventually null -->
+        <velocity template="factory.vm"
+                    target='${project}-impl/target/generated-sources/ete/fr/upjv/mis/ete/${dialect.i2lc(prefix)}/${prefix}Factories.java'/>
+
+                    <!-- The optional classes allow smart navigation through eventually null references -->
         <velocity template="class2optional.vm"
                     items="${classes}"
                     target='${project}-api/target/generated-sources/ete/${current.owningPackage.name.replaceAll("\\.", "/")}/${prefix}${current.name}Optional.java'/>
