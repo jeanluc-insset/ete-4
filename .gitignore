@@ -33,3 +33,6 @@
 /core/mof/target/
 /core/gel/target/
 /core/target/
+/core/mof/mof-spec/src/main/mde/mof.xml.bak
+/core/mof/xmi-impl/src/main/mde/ete-io.mdzip
+/core/mof/xmi-impl/src/main/mde/ete-io.xml.bak
