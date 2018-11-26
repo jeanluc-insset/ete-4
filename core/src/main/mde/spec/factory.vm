@@ -13,7 +13,7 @@ import javax.annotation.Generated;
 
 
 
-@Generated("ETE ete/src/main/mde/spec/factory.vm")
+@Generated("ETE core/src/main/mde/spec/factory.vm")
 public class ${prefix}Factories {
 
     public static void initFactories() {

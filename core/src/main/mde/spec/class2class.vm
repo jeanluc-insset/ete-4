@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 import javax.annotation.Generated;
 
 
-@Generated("ETE ete/src/main/mde/spec/class2class.vm")
+@Generated("ETE core/src/main/mde/spec/class2class.vm")
 #if ($current.hasSuperClasses())
 #set ($superClass = $current.superClass.get(0))
 #end

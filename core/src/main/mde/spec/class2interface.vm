@@ -13,7 +13,7 @@ import javax.annotation.Generated;
 
 
 
-@Generated("ETE ete/src/main/mde/spec/class2interface.vm")
+@Generated("ETE core/src/main/mde/spec/class2interface.vm")
 public interface ${prefix}${current.name} #if (
             $current.hasSuperClasses()) extends #foreach ($aSuperClass in $current.superClass)#if ($velocityCount>1),#end ${dialect.mt2lt($aSuperClass)}#end #end {
 

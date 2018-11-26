@@ -21,7 +21,7 @@ import javax.annotation.Generated;
  * worrying to check any intermediate null reference.<br>
  * The final result is an optional
  */
-@Generated("ETE ete/src/main/mde/spec/class2optional.vm")
+@Generated("ETE core/src/main/mde/spec/class2optional.vm")
 #if ($current.hasSuperClasses())
 #set ($superClass = $current.superClass.get(0))
 #end
