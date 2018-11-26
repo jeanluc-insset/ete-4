@@ -65,40 +65,40 @@ public class XmiModelReader extends XMLModelReader {
 
 
 
-    @Override
-    public String getClassPath() {
-        return CLASS_PATH;
-    }
-
-    @Override
-    public String getStereotypePath() {
-        return STEREOTYPE_PATH;
-    }
-
-    @Override
-    public String getOperationPath() {
-        return OPERATION_PATH;
-    }
-
-    @Override
-    public String getPropertyPath() {
-        return PROPERTY_PATH;
-    }
-
-    @Override
-    public String getPackagePath() {
-        return PACKAGE_PATH;
-    }
-
-    @Override
-    public String getInvariantPath() {
-        return INVARIANT_PATH;
-    }
-
-    @Override
-    public String getPostConditionPath() {
-        return POSTCONDITION_PATH;
-    }
+//    @Override
+//    public String getClassPath() {
+//        return CLASS_PATH;
+//    }
+//
+//    @Override
+//    public String getStereotypePath() {
+//        return STEREOTYPE_PATH;
+//    }
+//
+//    @Override
+//    public String getOperationPath() {
+//        return OPERATION_PATH;
+//    }
+//
+//    @Override
+//    public String getPropertyPath() {
+//        return PROPERTY_PATH;
+//    }
+//
+//    @Override
+//    public String getPackagePath() {
+//        return PACKAGE_PATH;
+//    }
+//
+//    @Override
+//    public String getInvariantPath() {
+//        return INVARIANT_PATH;
+//    }
+//
+//    @Override
+//    public String getPostConditionPath() {
+//        return POSTCONDITION_PATH;
+//    }
     
 
 
