@@ -18,20 +18,10 @@ public class ${prefix}Factories {
 
     public static void initFactories() {
         FactoryRegistry registry = FactoryRegistry.getRegistry();
-        // operators
 #foreach ($aClass in $current.classes)
-#if ($aClass.getValueOf("symbol"))
-#set ($strings = $aClass.getValueOf("symbol").split(" "))
-#foreach ($aSymbol in $strings)
-        registry.registerDefaultFactory("$aSymbol", ${prefix}${aClass.name}Impl.class);
-        registry.registerDefaultFactory(${prefix}${aClass.name}.class, ${prefix}${aClass.name}Impl.class);
-#end
-#end
-#end
-        // literals
-#foreach ($aClass in $current.classes)
-#if ($aClass.hasStereotype("literal"))
-        registry.registerDefaultFactory("${dialect.i2lc($aClass.name)}", ${prefix}${aClass.name}Impl.class);
+#if (!$aClass.hasStereotype("ignore"))
+        registry.registerDefaultFactory(${dialect.getQualifiedName($aClass)}.${aClass.name.toUpperCase()}, ${prefix}${aClass.name}Impl.class);
+        registry.registerDefaultFactory(${dialect.getQualifiedName($aClass)}.class, ${prefix}${aClass.name}Impl.class);
 #end
 #end
     }
