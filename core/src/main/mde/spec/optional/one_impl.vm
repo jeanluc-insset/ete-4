@@ -33,9 +33,10 @@
         }
     }
 
+
     public #parse("type.vm") get${dialect.i2uc($aProperty.name)}() {
         if (value == null) {
-            return #parse("optional/of-nullable.vm");
+            return #parse("optional/of-null.vm");
         }
         return #parse("optional/of-nullable.vm");
     }

@@ -1,8 +1,10 @@
 #set ($name=$aProperty.type.name)
-#if (
-    $name=="boolean"
-    || $name=="String"
-    || $name=="int" || $name=="Integer"
-    || $name=="Object" || $name=="Date"
-    || $name=="double" || $name=="float")new Optional(aValue)#elseif(
+#if ($name=="boolean")false#elseif(
+    $name=="int" || $name=="double"
+    || $name=="float" || $name=="long")0#elseif(
+    $name=="String"
+    || $name=="Long" || $name=="Integer"
+    || $name=="Double" || $name=="Float"
+    || $name=="Object" || $name=="Date")null#elseif(
+    $aProperty.type.enumeration)null#elseif(
     $aProperty.type.hasStereotype("ignore")).ofNullable(null)${name}Optional#else${prefix}${name}Optional.ofNullable(null)#end

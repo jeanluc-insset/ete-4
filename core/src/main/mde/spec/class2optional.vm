@@ -50,6 +50,8 @@ public class ${prefix}${current.name}Optional #if (
 
 
 #foreach ($aProperty in $current.ownedAttribute)
+// Scanning ${aProperty.name} of type ${aProperty.type.name}
+// Class of type : ${aProperty.type.class.name}
 #if ($aProperty.type.collection)
 #parse ("optional/sequence_impl.vm")
 #else
