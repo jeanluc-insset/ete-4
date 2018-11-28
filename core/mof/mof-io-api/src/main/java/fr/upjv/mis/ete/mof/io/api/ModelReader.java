@@ -25,7 +25,7 @@ public interface ModelReader {
     public          MofModel    readModel(MofModel inParent, Object inSource) throws IOException;
 
     public default  MofModel    readModel(MofModel inParent, InputStream inSource) throws IOException {
-        return null;
+        return readModel(inParent, getSource(inSource));
     }
 
     public default  MofModel    readModel(MofModel inParent, File inSource) throws IOException {
@@ -40,4 +40,5 @@ public interface ModelReader {
         return readModel(inParent, inSource.toURL());
     }
 
+    public Object   getSource(InputStream inInput);
 }
