@@ -18,6 +18,8 @@ public interface ${prefix}${current.name} #if (
             $current.hasSuperClasses()) extends #foreach ($aSuperClass in $current.superClass)#if ($velocityCount>1),#end ${dialect.mt2lt($aSuperClass)}#end #end {
 
 
+    public final static String      ${current.name.toUpperCase()} = "${current.name.toLowerCase}";
+
 #foreach ($aTVDeclaration in $current.tagValues.keySet())
 #set ($tagName = $aTVDeclaration.name)
 #if ($aTVDeclaration.valueType)
