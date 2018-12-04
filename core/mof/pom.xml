@@ -4,7 +4,7 @@
 
     <parent>
         <groupId>fr.upjv.mis.ete</groupId>
-        <artifactId>ete</artifactId>
+        <artifactId>core</artifactId>
         <version>4.0</version>
     </parent>
 
@@ -18,5 +18,6 @@
     <module>mof-api</module>
     <module>mof-impl</module>
         <module>mof-io-api</module>
+        <module>xmi-impl</module>
     </modules>
 </project>
